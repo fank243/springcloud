@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "fank.nacos.server-addr",
+      "type": "java.lang.String",
+      "description": "Description for fank.nacos.server-addr."
+    },
+    {
+      "name": "fank.nacos.namespace",
+      "type": "java.lang.String",
+      "description": "Description for fank.nacos.namespace."
+    }
+  ]
+}
