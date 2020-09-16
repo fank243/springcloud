@@ -10,14 +10,14 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * spring工具类 方便在非spring管理环境中获取bean
+ * Spring Tool
  *
  * @author FanWeiJie
  * @date 2020-09-12 21:51:45
  */
 @Component
 public final class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {
-    /** Spring应用上下文环境 */
+    /** Spring 应用上下文环境 */
     private static ConfigurableListableBeanFactory beanFactory;
 
     private static ApplicationContext applicationContext;

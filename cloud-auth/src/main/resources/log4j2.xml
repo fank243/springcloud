@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <!--日志文件存储路径-->
+        <property name="logDir">logs</property>
+
+        <!--控制台输出格式-->
+        <property name="consolePatternLayout">%d{HH:mm:ss} [%X{sessionId}] [%X{requestId}] [%t] [%c]-[%p] %m%n</property>
+
+        <!--RollingFile 输出格式-->
+        <property name="filePatternLayout">%d{yyyy/MM/dd HH:mm:ss} [%X{sessionId}] [%X{requestId}] [%t]  [%c]-[%p] %m%n</property>
+        <!--RollingFile 单文件分隔大小-->
+        <property name="fileSize">50MB</property>
+        <!--RollingFile 存放数量，默认7个-->
+        <property name="fileMax">30</property>
+
+        <!--RollingFile 文件名称-->
+        <property name="rollingFileName">${logDir}/auth.log</property>
+        <!--RollingFile framework 文件名称-->
+        <property name="frameworkFileName">${logDir}/auth-framework.log</property>
+
+        <!--RollingFile 按月归档-->
+        <property name="rollingFilePattern">
+            ${logDir}/%d{yyyy-MM}/auth-%d{yyyy-MM-dd}-%i.log.gz
+        </property>
+        <!--RollingFile framework 按月归档-->
+        <property name="frameworkFilePattern">
+            ${logDir}/%d{yyyy-MM}/auth-framework-%d{yyyy-MM-dd}-%i.log.gz
+        </property>
+
+    </Properties>
+
+    <Appenders>
+        <!--控制台-->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${consolePatternLayout}"/>
+            <!--匹配DEBUG及以上级别-->
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+
+        <!--RollingFile auth-->
+        <RollingFile name="rollingFile" fileName="${rollingFileName}" filePattern="${rollingFilePattern}">
+            <!--文件输出格式-->
+            <PatternLayout pattern="${filePatternLayout}"/>
+            <Policies>
+                <!--每天产生至少产生一个归档，或者文件大小超过设定值产生多个归档-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="${fileSize}"/>
+            </Policies>
+            <!--同类型日志文件同一文件夹下可以存放数量，默认为7个-->
+            <DefaultRolloverStrategy max="${fileMax}"/>
+            <Filters>
+                <!-- 匹配 > DEBUG  -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <!--RollingFile framework-->
+        <RollingFile name="frameworkFile" fileName="${frameworkFileName}" filePattern="${frameworkFilePattern}">
+            <!--文件输出格式-->
+            <PatternLayout pattern="${filePatternLayout}"/>
+            <Policies>
+                <!--每天产生至少产生一个归档，或者文件大小超过设定值产生多个归档-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="${fileSize}"/>
+            </Policies>
+            <!--同类型日志文件同一文件夹下可以存放数量，默认为7个-->
+            <DefaultRolloverStrategy max="${fileMax}"/>
+            <Filters>
+                <!--匹配 > DEBUG-->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+    </Appenders>
+
+    <!--定义logger,只有定义了logger并引入的appender,appender才会生效 -->
+    <Loggers>
+
+        <!-- 将项目产生的日志文件全部写入到单独的文件中 -->
+        <Logger name="com.fank243.springcloud" level="DEBUG">
+            <AppenderRef ref="rollingFile"/>
+        </Logger>
+
+        <!-- 开发环境屏蔽框架 DEBUG 日志 -->
+        <Logger name="org.springframework" level="INFO"/>
+        <Logger name="org.hibernate" level="INFO"/>
+        <Logger name="org.apache" level="INFO"/>
+        <Logger name="org.mybatis" level="INFO"/>
+        <Logger name="io.lettuce" level="INFO"/>
+        <Logger name="io.netty" level="INFO"/>
+        <Logger name="druid.sql" level="INFO"/>
+        <Logger name="com.alibaba.nacos" level="INFO"/>
+
+        <!--默认日志级别-->
+        <Root level="debug">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="frameworkFile"/>
+        </Root>
+
+    </Loggers>
+</Configuration>

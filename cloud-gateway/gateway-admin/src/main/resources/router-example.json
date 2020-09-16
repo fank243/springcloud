@@ -1,0 +1,15 @@
+[
+  {
+    "id": "router-api-app",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/api/app/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "lb://api-app"
+  }
+]
