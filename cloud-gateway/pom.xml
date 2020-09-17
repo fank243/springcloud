@@ -12,16 +12,16 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>gateway-admin</module>
-        <module>gateway-app</module>
-        <module>gateway-core</module>
+        <module>cloud-gateway-core</module>
+        <module>cloud-gateway-admin</module>
+        <module>cloud-gateway-app</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.fank243.springcloud</groupId>
-                <artifactId>gateway-core</artifactId>
+                <artifactId>cloud-gateway-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

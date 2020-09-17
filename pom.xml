@@ -10,10 +10,16 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!--公共模块-->
         <module>cloud-common</module>
+        <!--Api 网关模块-->
         <module>cloud-gateway</module>
+        <!--认证模块-->
         <module>cloud-auth</module>
-        <module>cloud-api</module>
+        <!--业务模块-->
+        <module>cloud-service</module>
+        <!--框架依赖-->
+        <module>cloud-framework</module>
     </modules>
 
     <properties>
@@ -54,16 +60,16 @@
                 <version>${nacos-config-spring-boot-starter.version}</version>
             </dependency>
 
-            <!--framework module-->
-            <dependency>
-                <groupId>com.fank243.springcloud</groupId>
-                <artifactId>cloud-framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!--common module-->
+            <!--公共模块-->
             <dependency>
                 <groupId>com.fank243.springcloud</groupId>
                 <artifactId>cloud-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--框架依赖-->
+            <dependency>
+                <groupId>com.fank243.springcloud</groupId>
+                <artifactId>cloud-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

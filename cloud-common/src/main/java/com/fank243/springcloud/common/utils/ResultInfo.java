@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.springcloud.common.enums.ResultCode;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 /**
@@ -34,7 +36,9 @@ public class ResultInfo implements Serializable {
     /** 时间戳 **/
     private Long timestamp = System.currentTimeMillis();
 
-    /** 结果集中的对象 */
+    /** 请求URI */
+    private String path = "";
+
     private Object payload = "";
 
     public ResultInfo() {}
@@ -64,7 +68,7 @@ public class ResultInfo implements Serializable {
         return this;
     }
 
-    public ResultInfo code(int code) {
+    public ResultInfo status(int code) {
         this.status = code;
         return this;
     }
@@ -79,93 +83,96 @@ public class ResultInfo implements Serializable {
         return this;
     }
 
+    public ResultInfo path(String path) {
+        this.path = path;
+        return this;
+    }
+
     public static ResultInfo ok() {
-        return new ResultInfo().success(true).code(ResultCode.R200.getStatus()).message(ResultCode.R200.getMessage());
+        return new ResultInfo().success(true).status(ResultCode.R200.getStatus()).message(ResultCode.R200.getMessage());
     }
 
     public static ResultInfo ok(Object payload) {
-        return new ResultInfo().success(true).code(ResultCode.R200.getStatus()).message(ResultCode.R200.getMessage())
+        return new ResultInfo().success(true).status(ResultCode.R200.getStatus()).message(ResultCode.R200.getMessage())
             .payload(payload);
     }
 
+    public static ResultInfo R401() {
+        return new ResultInfo().success(false).message(ResultCode.R401.getMessage())
+            .status(ResultCode.R401.getStatus());
+    }
+
+    public static ResultInfo R401(String msg) {
+        return new ResultInfo().success(false).message(msg).status(ResultCode.R401.getStatus());
+    }
+
+    public static ResultInfo R402() {
+        return new ResultInfo().success(false).message(ResultCode.R402.getMessage())
+            .status(ResultCode.R402.getStatus());
+    }
+
+    public static ResultInfo R403() {
+        return new ResultInfo().success(false).message(ResultCode.R403.getMessage())
+            .status(ResultCode.R403.getStatus());
+    }
+
+    public static ResultInfo R403(String msg) {
+        return new ResultInfo().success(false).message(msg).status(ResultCode.R403.getStatus());
+    }
+
+    public static ResultInfo R404() {
+        return new ResultInfo().success(false).status(ResultCode.R404.getStatus())
+            .message(ResultCode.R404.getMessage());
+    }
+
+    public static ResultInfo R405() {
+        return new ResultInfo().success(false).message(ResultCode.R405.getMessage())
+            .status(ResultCode.R405.getStatus());
+    }
+
+    public static ResultInfo error() {
+        return new ResultInfo().success(false).message(ResultCode.R500.getMessage())
+            .status(ResultCode.R500.getStatus());
+    }
+
+    public static ResultInfo error(String msg) {
+        return new ResultInfo().success(false).message(msg).status(ResultCode.R500.getStatus());
+    }
+
+    public static ResultInfo error(int status, String msg) {
+        return new ResultInfo().success(false).message(msg).status(status);
+    }
+
+    public static ResultInfo R503() {
+        return new ResultInfo().success(false).message(ResultCode.R503.getMessage())
+            .status(ResultCode.R503.getStatus());
+    }
+
+    public static ResultInfo R503(String msg) {
+        return new ResultInfo().success(false).message(msg).status(ResultCode.R503.getStatus());
+    }
+
     public static ResultInfo fail() {
-        return new ResultInfo().success(false).code(ResultCode.R201.getStatus()).message(ResultCode.R201.getMessage());
+        return new ResultInfo().success(false).status(ResultCode.R600.getStatus())
+            .message(ResultCode.R600.getMessage());
     }
 
     public static ResultInfo fail(String message) {
-        return new ResultInfo().success(false).message(message).code(ResultCode.R201.getStatus());
+        return new ResultInfo().success(false).message(message).status(ResultCode.R600.getStatus());
     }
 
     public static ResultInfo fail(int code, String message) {
-        return new ResultInfo().success(false).message(message).code(code);
+        return new ResultInfo().success(false).message(message).status(code);
     }
 
-    public static ResultInfo notFund() {
-        return new ResultInfo().success(false).message(ResultCode.R404.getMessage()).code(ResultCode.R404.getStatus());
-    }
-
-    public static ResultInfo notFund(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R404.getStatus());
-    }
-
-    public static ResultInfo methodNotSupported() {
-        return new ResultInfo().success(false).message(ResultCode.R405.getMessage()).code(ResultCode.R405.getStatus());
-    }
-
-    public static ResultInfo methodNotSupported(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R405.getStatus());
-    }
-
-    public static ResultInfo unavailableService() {
-        return new ResultInfo().success(false).message(ResultCode.R503.getMessage()).code(ResultCode.R503.getStatus());
-    }
-
-    public static ResultInfo unavailableService(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R503.getStatus());
-    }
-
-    public static ResultInfo unauthorized() {
-        return new ResultInfo().success(false).message(ResultCode.R401.getMessage()).code(ResultCode.R401.getStatus());
-    }
-
-    public static ResultInfo unauthorized(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R401.getStatus());
-    }
-
-    public static ResultInfo expired() {
-        return new ResultInfo().success(false).message(ResultCode.R402.getMessage()).code(ResultCode.R402.getStatus());
-    }
-
-    public static ResultInfo forbidden() {
-        return new ResultInfo().success(false).message(ResultCode.R403.getMessage()).code(ResultCode.R403.getStatus());
-    }
-
-    public static ResultInfo forbidden(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R403.getStatus());
-    }
-
-    public static ResultInfo exception() {
-        return new ResultInfo().success(false).message(ResultCode.R999.getMessage()).code(ResultCode.R999.getStatus());
-    }
-
-    public static ResultInfo exception(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R999.getStatus());
-    }
-
-    public static ResultInfo notLogin(String message) {
-        return new ResultInfo().success(false).message(message).code(ResultCode.R202.getStatus());
-    }
-
-    public static ResultInfo notLogin() {
-        return new ResultInfo().success(false).message(ResultCode.R202.getMessage()).code(ResultCode.R202.getStatus());
-    }
-
-    public static ResultInfo illegalParameter() {
-        return new ResultInfo().success(false).message(ResultCode.R104.getMessage()).code(ResultCode.R104.getStatus());
-    }
-
-    public static ResultInfo illegalParameter(String msg) {
-        return new ResultInfo().success(false).message(msg).code(ResultCode.R104.getStatus());
+    public String getPath() {
+        if (StringUtils.isBlank(path)) {
+            HttpServletRequest request = WebUtils.getRequest();
+            if (request != null) {
+                this.path = request.getRequestURI();
+            }
+        }
+        return this.path;
     }
 
     @Override

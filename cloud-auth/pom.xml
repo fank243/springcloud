@@ -9,73 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cloud-auth</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <properties>
-        <maven.install.skip>true</maven.install.skip>
-        <maven.test.skip>true</maven.test.skip>
-    </properties>
+    <modules>
+        <module>cloud-auth-core</module>
+        <module>cloud-auth-oauth2</module>
+    </modules>
 
-    <dependencies>
-        <!--Spring Boot DevTools-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.springcloud</groupId>
-            <artifactId>cloud-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alicp.jetcache</groupId>
-            <artifactId>jetcache-starter-redis</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>error_prone_annotations</artifactId>
-                    <groupId>com.google.errorprone</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>bcpkix-jdk15on</artifactId>
-                    <groupId>org.bouncycastle</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--alibaba 服务注册与发现组件-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jsr305</artifactId>
-                    <groupId>com.google.code.findbugs</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>HdrHistogram</artifactId>
-                    <groupId>org.hdrhistogram</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--alibaba 配置中心组件-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
-    </dependencies>
-
-
+    <dependencyManagement>
+        <dependencies>
+            <!--认证核心模块-->
+            <dependency>
+                <groupId>com.fank243.springcloud</groupId>
+                <artifactId>cloud-auth-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class RepeatSubmitException extends Exception {
 
-    private String message;
+    private final String message;
 
     public RepeatSubmitException(String message) {
         this.message = message;
