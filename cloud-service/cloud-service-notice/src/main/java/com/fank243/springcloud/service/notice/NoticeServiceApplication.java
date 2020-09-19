@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author FanWeiJie
  * @date 2020-09-15 14:15:26
  */
-@EnableMethodCache(basePackages = {"com.fank243.springcloud.api"})
+@EnableMethodCache(basePackages = {"com.fank243.springcloud.service.notice"})
 @EnableCreateCacheAnnotation
 @ComponentScan(basePackages = {"com.fank243.springcloud.service.notice.*", "com.fank243.springcloud.framework.*",
     "com.fank243.springcloud.common.*"})

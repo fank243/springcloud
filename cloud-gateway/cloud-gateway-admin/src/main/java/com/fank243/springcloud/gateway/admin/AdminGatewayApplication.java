@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author FanWeiJie
  * @date 2020-09-09 10:04:09
  */
-@ComponentScan(basePackages = {"com.fank243.springcloud.gateway.admin.*.**", "com.fank243.springcloud.gateway.core.*"})
+@ComponentScan(basePackages = {"com.fank243.springcloud.gateway.admin.*", "com.fank243.springcloud.gateway.core.*"})
 @EnableDiscoveryClient
 @SpringBootApplication
 public class AdminGatewayApplication {

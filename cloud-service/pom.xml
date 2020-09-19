@@ -21,10 +21,17 @@
     <modules>
         <module>cloud-service-core</module>
         <module>cloud-service-notice</module>
+        <module>cloud-service-sysUser</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!--框架依赖-->
+            <dependency>
+                <groupId>com.fank243.springcloud</groupId>
+                <artifactId>cloud-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--服务核心模块-->
             <dependency>
                 <groupId>com.fank243.springcloud</groupId>

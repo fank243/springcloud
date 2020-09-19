@@ -4,11 +4,19 @@ server:
 logging:
   config: classpath:log4j2.xml
 
+#security:
+#  oauth2:
+#    resource:
+#      jwk:
+#        key-set-uri: http://192.168.110:8100/auth/
+
 spring:
   application:
     name: cloud-gateway-admin
   profiles:
     active: dev
+  main:
+      allow-bean-definition-overriding: true # 允许重名bean
   cloud:
     nacos:
       config:
@@ -17,7 +25,8 @@ spring:
         prefix: ${spring.application.name}
         file-extension: yml
         extension-configs:
-          - data-id: cloud-common-nacos-discovery-metadata.yml # load nacos discovery metadata properties
+          - data-id: cloud-common-jpa.yml # 加载JPA配置
+          - data-id: cloud-common-nacos-discovery-metadata.yml # 设置nacos心跳参数
 ---
 spring:
   profiles: dev

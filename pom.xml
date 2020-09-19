@@ -10,16 +10,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--公共模块-->
-        <module>cloud-common</module>
+        <!--其他组件-->
+        <module>cloud-component</module>
         <!--Api 网关模块-->
         <module>cloud-gateway</module>
         <!--认证模块-->
         <module>cloud-auth</module>
         <!--业务模块-->
         <module>cloud-service</module>
-        <!--框架依赖-->
-        <module>cloud-framework</module>
     </modules>
 
     <properties>
@@ -31,48 +29,10 @@
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
         <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
         <fank243.version>1.0.1</fank243.version>
-
-        <shiro.version>1.5.2</shiro.version>
-        <jetcache.version>2.6.0</jetcache.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>com.alicp.jetcache</groupId>
-                <artifactId>jetcache-starter-redis</artifactId>
-                <version>${jetcache.version}</version>
-            </dependency>
-
-            <!-- apache shiro 无状态认证权限框架 -->
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <!--Spring Cloud Alibaba Nacos 注入配置文件
-                 启动类添加注解，自动读取Nacos数据源配置文件
-            -->
-            <dependency>
-                <groupId>com.alibaba.boot</groupId>
-                <artifactId>nacos-config-spring-boot-starter</artifactId>
-                <version>${nacos-config-spring-boot-starter.version}</version>
-            </dependency>
-
-            <!--公共模块-->
-            <dependency>
-                <groupId>com.fank243.springcloud</groupId>
-                <artifactId>cloud-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!--框架依赖-->
-            <dependency>
-                <groupId>com.fank243.springcloud</groupId>
-                <artifactId>cloud-framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <!--Spring Cloud 依赖-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

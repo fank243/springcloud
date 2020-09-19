@@ -18,17 +18,17 @@
         <property name="fileMax">30</property>
 
         <!--RollingFile 文件名称-->
-        <property name="rollingFileName">${logDir}/admin.log</property>
+        <property name="rollingFileName">${logDir}/notice.log</property>
         <!--RollingFile framework 文件名称-->
-        <property name="frameworkFileName">${logDir}/admin-framework.log</property>
+        <property name="frameworkFileName">${logDir}/notice-framework.log</property>
 
         <!--RollingFile 按月归档-->
         <property name="rollingFilePattern">
-            ${logDir}/%d{yyyy-MM}/admin-%d{yyyy-MM-dd}-%i.log.gz
+            ${logDir}/%d{yyyy-MM}/notice-%d{yyyy-MM-dd}-%i.log.gz
         </property>
         <!--RollingFile framework 按月归档-->
         <property name="frameworkFilePattern">
-            ${logDir}/%d{yyyy-MM}/admin-framework-%d{yyyy-MM-dd}-%i.log.gz
+            ${logDir}/%d{yyyy-MM}/notice-framework-%d{yyyy-MM-dd}-%i.log.gz
         </property>
 
     </Properties>
@@ -41,7 +41,7 @@
             <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
         </Console>
 
-        <!--RollingFile admin-->
+        <!--RollingFile notice-->
         <RollingFile name="rollingFile" fileName="${rollingFileName}" filePattern="${rollingFilePattern}">
             <!--文件输出格式-->
             <PatternLayout pattern="${filePatternLayout}"/>

@@ -18,6 +18,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--框架依赖-->
+            <dependency>
+                <groupId>com.fank243.springcloud</groupId>
+                <artifactId>cloud-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!--认证核心模块-->
             <dependency>
                 <groupId>com.fank243.springcloud</groupId>
