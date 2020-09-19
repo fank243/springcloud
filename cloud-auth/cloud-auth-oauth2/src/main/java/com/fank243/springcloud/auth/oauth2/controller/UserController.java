@@ -1,6 +1,6 @@
-package com.fank243.springcloud.auth.oauth2.controller;
+package com.fank243.cloud.auth.oauth2.controller;
 
-import com.fank243.springcloud.common.utils.ResultInfo;
+import com.fank243.cloud.component.common.utils.ResultInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

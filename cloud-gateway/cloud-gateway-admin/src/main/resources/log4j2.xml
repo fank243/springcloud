@@ -81,7 +81,7 @@
     <Loggers>
 
         <!-- 将项目产生的日志文件全部写入到单独的文件中 -->
-        <Logger name="com.fank243.springcloud" level="DEBUG">
+        <Logger name="com.fank243.cloud" level="DEBUG">
             <AppenderRef ref="rollingFile"/>
         </Logger>
 

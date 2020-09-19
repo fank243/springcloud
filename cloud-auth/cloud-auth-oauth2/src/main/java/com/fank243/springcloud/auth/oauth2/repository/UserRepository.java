@@ -1,6 +1,6 @@
-package com.fank243.springcloud.auth.oauth2.repository;
+package com.fank243.cloud.auth.oauth2.repository;
 
-import com.fank243.springcloud.auth.oauth2.entity.User;
+import com.fank243.cloud.auth.oauth2.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

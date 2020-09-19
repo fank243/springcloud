@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>springcloud</artifactId>
-        <groupId>com.fank243.springcloud</groupId>
+        <artifactId>fank243-cloud</artifactId>
+        <groupId>com.fank243.cloud</groupId>
         <version>0.0.1</version>
     </parent>
     <artifactId>cloud-service</artifactId>
@@ -21,20 +21,25 @@
     <modules>
         <module>cloud-service-core</module>
         <module>cloud-service-notice</module>
-        <module>cloud-service-sysUser</module>
+        <module>cloud-service-user</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <!--框架依赖-->
             <dependency>
-                <groupId>com.fank243.springcloud</groupId>
+                <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.cloud</groupId>
+                <artifactId>cloud-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--服务核心模块-->
             <dependency>
-                <groupId>com.fank243.springcloud</groupId>
+                <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-service-core</artifactId>
                 <version>${project.version}</version>
             </dependency>

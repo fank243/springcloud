@@ -1,4 +1,4 @@
-package com.fank243.springcloud.auth.core;
+package com.fank243.cloud.auth.core;
 
 public class App {
 }

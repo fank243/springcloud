@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>cloud-gateway</artifactId>
-        <groupId>com.fank243.springcloud</groupId>
+        <groupId>com.fank243.cloud</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -26,7 +26,7 @@
         </dependency>
         <!--Api 网关核心模块-->
         <dependency>
-            <groupId>com.fank243.springcloud</groupId>
+            <groupId>com.fank243.cloud</groupId>
             <artifactId>cloud-gateway-core</artifactId>
         </dependency>
     </dependencies>

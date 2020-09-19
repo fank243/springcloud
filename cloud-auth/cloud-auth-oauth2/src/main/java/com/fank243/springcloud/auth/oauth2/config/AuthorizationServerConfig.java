@@ -1,7 +1,7 @@
-//package com.fank243.springcloud.auth.oauth2.config;
+//package com.fank243.cloud.auth.oauth2.config;
 //
 //import com.alibaba.druid.pool.DruidDataSource;
-//import com.fank243.springcloud.auth.oauth2.service.UserServiceDetail;
+//import com.fank243.cloud.auth.oauth2.service.UserServiceDetail;
 //import org.springframework.beans.factory.annotation.Qualifier;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.authentication.AuthenticationManager;

@@ -1,6 +1,6 @@
-package com.fank243.springcloud.auth.oauth2.service;
+package com.fank243.cloud.auth.oauth2.service;
 
-import com.fank243.springcloud.auth.oauth2.repository.UserRepository;
+import com.fank243.cloud.auth.oauth2.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

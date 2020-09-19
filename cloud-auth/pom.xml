@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>springcloud</artifactId>
-        <groupId>com.fank243.springcloud</groupId>
+        <artifactId>fank243-cloud</artifactId>
+        <groupId>com.fank243.cloud</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -20,14 +20,14 @@
         <dependencies>
             <!--框架依赖-->
             <dependency>
-                <groupId>com.fank243.springcloud</groupId>
+                <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!--认证核心模块-->
             <dependency>
-                <groupId>com.fank243.springcloud</groupId>
+                <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-auth-core</artifactId>
                 <version>${project.version}</version>
             </dependency>

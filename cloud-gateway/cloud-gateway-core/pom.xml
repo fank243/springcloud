@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>cloud-gateway</artifactId>
-        <groupId>com.fank243.springcloud</groupId>
+        <groupId>com.fank243.cloud</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,6 +13,22 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--公共模块-->
+        <dependency>
+            <groupId>com.fank243.cloud</groupId>
+            <artifactId>cloud-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.cloud</groupId>
+            <artifactId>cloud-domain</artifactId>
+        </dependency>
+
         <!--log4j2 日志框架-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -92,18 +108,6 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.10.7</version>
             <scope>runtime</scope>
-        </dependency>
-
-        <!--公共模块-->
-        <dependency>
-            <groupId>com.fank243.springcloud</groupId>
-            <artifactId>cloud-common</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

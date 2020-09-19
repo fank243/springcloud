@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>cloud-service</artifactId>
-        <groupId>com.fank243.springcloud</groupId>
+        <groupId>com.fank243.cloud</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cloud-service-sysUser</artifactId>
+    <artifactId>cloud-service-user</artifactId>
 
     <properties>
         <maven.install.skip>true</maven.install.skip>
@@ -23,9 +23,20 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
-            <groupId>com.fank243.springcloud</groupId>
+            <groupId>com.fank243.cloud</groupId>
             <artifactId>cloud-service-core</artifactId>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package com.fank243.springcloud.auth.oauth2.entity;
+package com.fank243.cloud.auth.oauth2.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
