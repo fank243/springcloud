@@ -1,6 +1,5 @@
 package com.fank243.cloud.gateway.admin.model;
 
-import com.fank243.cloud.gateway.admin.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,13 +24,13 @@ public class JwtUser implements UserDetails {
     /**
      * 通过 user 对象创建jwtUser
      */
-    public JwtUser(User user) {
-        id = user.getId();
-        username = user.getUsername();
-        password = user.getPassword();
-        enabled = user.getEnabled() == null || user.getEnabled();
-//        authorities = user.getRoles();
-    }
+//    public JwtUser(User user) {
+//        id = user.getId();
+//        username = user.getUsername();
+//        password = user.getPassword();
+//        enabled = user.getEnabled() == null || user.getEnabled();
+////        authorities = user.getRoles();
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

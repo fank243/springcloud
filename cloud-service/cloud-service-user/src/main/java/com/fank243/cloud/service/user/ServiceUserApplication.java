@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  */
 @EnableMethodCache(basePackages = {"com.fank243.cloud.service.user"})
 @EnableCreateCacheAnnotation
-@ComponentScan(basePackages = {"com.fank243.cloud.service.user.*", "com.fank243.cloud.component.*.**"})
+@ComponentScan(basePackages = {"com.fank243.cloud.service.*", "com.fank243.cloud.component.*.**"})
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableDiscoveryClient
 @SpringBootApplication

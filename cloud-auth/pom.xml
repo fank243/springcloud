@@ -12,7 +12,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>cloud-auth-core</module>
         <module>cloud-auth-oauth2</module>
     </modules>
 
@@ -22,13 +21,6 @@
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!--认证核心模块-->
-            <dependency>
-                <groupId>com.fank243.cloud</groupId>
-                <artifactId>cloud-auth-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

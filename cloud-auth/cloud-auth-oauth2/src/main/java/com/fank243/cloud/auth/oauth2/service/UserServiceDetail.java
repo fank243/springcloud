@@ -1,9 +1,9 @@
-package com.fank243.cloud.gateway.admin.service;
+package com.fank243.cloud.auth.oauth2.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -13,14 +13,14 @@ import javax.annotation.Resource;
  * @author FanWeiJie
  * @date 2020-09-17 17:04:52
  */
-@Component
-public class MyUserDetailsService implements UserDetailsService {
-
-    @Resource
-    private SysUserService sysUserService;
+@Service
+public class UserServiceDetail implements UserDetailsService {
+    // @Resource
+    // private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return sysUserService.loadUserByUsername(username);
+        // return userRepository.findByUsername(username);
+        return null;
     }
 }

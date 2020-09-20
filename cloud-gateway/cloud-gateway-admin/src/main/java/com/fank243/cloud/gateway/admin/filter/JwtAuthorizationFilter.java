@@ -1,6 +1,6 @@
 package com.fank243.cloud.gateway.admin.filter;
 
-import com.fank243.cloud.gateway.admin.service.MyUserDetailsService;
+import com.fank243.cloud.gateway.admin.service.UserDetailsServiceImpl;
 import com.fank243.cloud.gateway.core.constants.SecurityConstants;
 import com.fank243.cloud.gateway.core.utils.JwtTokenUtils;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,11 +30,11 @@ import java.util.logging.Logger;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final MyUserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private static final Logger logger = Logger.getLogger(JwtAuthorizationFilter.class.getName());
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
-        MyUserDetailsService userDetailsService) {
+        UserDetailsServiceImpl userDetailsService) {
         super(authenticationManager);
         this.userDetailsService = userDetailsService;
     }

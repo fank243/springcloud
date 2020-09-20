@@ -8,7 +8,9 @@ spring:
   application:
     name: cloud-auth-oauth2
   profiles:
-    active: dev
+    active: home
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     nacos:
       config:
@@ -28,6 +30,15 @@ spring:
         # nacos web端地址，需要携带端口，多个使用`,`分割
         server-addr: 192.168.8.119
         namespace: 9edb3cd4-4273-444d-8d05-870a1d3c9df3
+---
+spring:
+  profiles: home
+  cloud:
+    nacos:
+      discovery:
+        # nacos web端地址，需要携带端口，多个使用`,`分割
+        server-addr: 192.168.31.120
+        namespace: 59d2b4bc-392a-4f1b-adb0-bbc862cd5eab
 ---
 spring:
   profiles: test
