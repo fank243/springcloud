@@ -31,4 +31,19 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <commandlineArguments>
+                        <compilerArgs>
+                            <arg>-J--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED</arg>
+                        </compilerArgs>
+                    </commandlineArguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

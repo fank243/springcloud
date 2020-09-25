@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 数据传输对象:系统用户
@@ -13,9 +14,13 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class SysUserDTO {
+public class SysUserDTO implements Serializable {
     @Id
     private Long id;
 
     private String username;
+
+    private String password;
+
+    private Integer status;
 }

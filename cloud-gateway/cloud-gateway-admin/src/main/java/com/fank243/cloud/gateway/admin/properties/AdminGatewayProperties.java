@@ -22,7 +22,7 @@ public class AdminGatewayProperties {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Value("${server.port:8001}")
+    @Value("${server.port:8000}")
     private int port;
 
     @Value("${spring.cloud.nacos.config.namespace}")

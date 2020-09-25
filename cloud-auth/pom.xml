@@ -23,6 +23,11 @@
                 <artifactId>cloud-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fank243.cloud</groupId>
+                <artifactId>cloud-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

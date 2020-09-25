@@ -1,0 +1,41 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://192.168.8.110:8100/rsa/publicKey
+
+  cloud:
+    gateway:
+      routes:
+        # oauth2 认证授权
+        - id: cloud-auth-oauth2
+          predicates:
+            - Path=/api/oauth/**
+            - Method=POST
+          filters:
+            - StripPrefix=1
+          #            - name: Hystrix
+          #              args:
+          #                name: fallbackCmd
+          #                fallbackUri: forward:/fallback
+          uri: lb://cloud-auth-oauth2
+
+        # 服务:用户
+        - id: cloud-service-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+          uri: lb://cloud-service-user
+
+        # 服务:通知
+        - id: cloud-service-notice
+          predicates:
+            - Path=/api/notice/**
+          filters:
+            - StripPrefix=1
+          uri: lb://cloud-service-notice
+      filter:
+        secure-headers:
+          content-security-policy:

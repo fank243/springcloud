@@ -1,14 +1,13 @@
 server:
   port: 8200
 
-logging:
-  config: classpath:log4j2.xml
-
 spring:
   profiles:
-    active: home # 启动程序时通过指定环境实现：java -jar -Dspring.profiles.active=prod app.jar
+    active: dev # 启动程序时通过指定环境实现：java -jar -Dspring.profiles.active=prod app.jar
   application:
     name: cloud-service-user
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     nacos:
       config:

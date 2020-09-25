@@ -1,7 +1,7 @@
 package com.fank243.cloud.service.user.domain.entity;
 
-import com.fank243.cloud.component.common.utils.EntityUtils;
 import com.fank243.cloud.component.domain.entity.BaseEntity;
+import com.fank243.cloud.component.domain.utils.EntityUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

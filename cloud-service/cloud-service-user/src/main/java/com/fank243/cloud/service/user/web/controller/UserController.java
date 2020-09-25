@@ -1,0 +1,52 @@
+package com.fank243.cloud.service.user.web.controller;
+
+import com.fank243.cloud.component.common.utils.ResultInfo;
+import com.fank243.cloud.component.domain.dto.CurrUser;
+import com.fank243.cloud.component.domain.dto.UserFormDTO;
+import com.fank243.cloud.component.domain.entity.SysPermission;
+import com.fank243.cloud.component.domain.entity.SysRole;
+import com.fank243.cloud.component.domain.entity.SysUser;
+import com.fank243.cloud.service.user.service.SysUserService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * 用户服务
+ * 
+ * @author FanWeiJie
+ * @date 2020-09-21 16:48:23
+ */
+@RequestMapping("/user")
+@RestController
+public class UserController {
+
+    @Resource
+    private SysUserService sysUserService;
+
+    @PostMapping("/validateUser")
+    public ResultInfo validateUser(@RequestBody UserFormDTO userForm) {
+        SysUser sysUser = sysUserService.findByUsername(userForm.getUsername());
+        if (sysUser == null) {
+            return ResultInfo.fail("账号或密码错误");
+        }
+        CurrUser currUser = new CurrUser();
+        currUser.setId(sysUser.getId());
+        currUser.setUsername(sysUser.getUsername());
+        currUser.setPassword(sysUser.getPassword());
+
+        List<String> permList = new ArrayList<>(1);
+        for (SysRole role : sysUser.getRoles()) {
+            permList = role.getPermissions().stream().map(SysPermission::getPermission).collect(Collectors.toList());
+        }
+        currUser.setPermList(permList);
+
+        return ResultInfo.ok(currUser);
+    }
+}

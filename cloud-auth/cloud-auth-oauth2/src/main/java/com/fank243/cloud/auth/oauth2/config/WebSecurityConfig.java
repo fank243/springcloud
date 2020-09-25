@@ -1,17 +1,23 @@
 package com.fank243.cloud.auth.oauth2.config;
 
+import com.fank243.cloud.auth.oauth2.component.JwtTokenEnhancer;
+import com.fank243.cloud.component.common.utils.ResultInfo;
+import com.fank243.cloud.component.common.utils.WebUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+
+import javax.sql.DataSource;
 
 /**
  * spring security 配置
@@ -19,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author FanWeiJie
  * @date 2020-09-20 23:14:36
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,22 +34,67 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /** 访问策略 **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 访问策略配置
+        // http
+        // // 禁用跨站拦截
+        // .csrf().disable()
+        // // 禁用 HTTP Basic 认证
+        // .httpBasic().disable()
+        // //
+        // .requestMatchers().anyRequest()
+        // // 请求拦截
+        // .and().authorizeRequests()
+        // // 放行oauth2认证请求
+        // .antMatchers("/oauth/**").permitAll()
+        // .antMatchers("/oauth2/**").permitAll()
+        // // 其他请求需要认证
+        // .anyRequest().authenticated()
+        // //
+        // .and().exceptionHandling()
+        // // 未授权
+        // .accessDeniedHandler((request, response, accessDeniedException) -> {
+        // log.error("accessDeniedException == >{}", accessDeniedException.toString());
+        // response.setStatus(HttpStatus.FORBIDDEN.value());
+        // WebUtils.printJson(response, ResultInfo.err403());
+        // })
+        // // 未认证
+        // .authenticationEntryPoint((request, response, authException) -> {
+        // log.error("authException == >{}", authException.toString());
+        // response.setStatus(HttpStatus.FORBIDDEN.value());
+        // WebUtils.printJson(response, ResultInfo.err403());
+        // });
+        // @formatter:off
         http
-            // 禁用跨站拦截
-            .csrf().disable()
-            //
-            .requestMatchers().anyRequest()
-            // 请求拦截
-            .and().authorizeRequests()
-            // 放行oauth2认证请求
-            .antMatchers("/oauth/*").permitAll();
+                .csrf().disable()
+                .authorizeRequests()
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                .antMatchers("/rsa/publicKey").permitAll()
+                .anyRequest().authenticated()
+                .and().exceptionHandling()
+                // 未授权
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    log.error("accessDeniedException == >{}", accessDeniedException.toString());
+                    response.setStatus(HttpStatus.FORBIDDEN.value());
+                    WebUtils.printJson(response, ResultInfo.err403());
+                })
+                // 未认证
+                .authenticationEntryPoint((request, response, authException) -> {
+                    log.error("authException == >{}", authException.toString());
+                    response.setStatus(HttpStatus.FORBIDDEN.value());
+                    WebUtils.printJson(response, ResultInfo.err403());
+                });
+        // @formatter:on
     }
 
+    @Autowired
+    public DataSource dataSource;
+
+    @Bean
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser(User.withUsername("admin").password("123456").authorities("r1").build());
-        // auth.userDetailsService(userServiceDetail).passwordEncoder(new BCryptPasswordEncoder());
+    protected UserDetailsService userDetailsService() {
+        // 从数据库读取账号密码
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
+        jdbcUserDetailsManager.setDataSource(dataSource);
+        return jdbcUserDetailsManager;
     }
 
     @Bean
@@ -51,8 +103,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
 }

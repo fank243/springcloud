@@ -1,6 +1,6 @@
 package com.fank243.cloud.service.user.repository;
 
-import com.fank243.cloud.service.user.domain.entity.SysUser;
+import com.fank243.cloud.component.domain.entity.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

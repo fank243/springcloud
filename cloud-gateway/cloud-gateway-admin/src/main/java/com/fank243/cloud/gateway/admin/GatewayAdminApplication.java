@@ -2,6 +2,7 @@ package com.fank243.cloud.gateway.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -11,12 +12,12 @@ import org.springframework.context.annotation.ComponentScan;
  * @author FanWeiJie
  * @date 2020-09-09 10:04:09
  */
-@ComponentScan(basePackages = {"com.fank243.cloud.gateway.*", "com.fank243.cloud.component.*.**"})
+@EntityScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
+@ComponentScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
 @EnableDiscoveryClient
 @SpringBootApplication
 public class GatewayAdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayAdminApplication.class, args);
     }
-
 }

@@ -4,6 +4,7 @@ import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -18,8 +19,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  */
 @EnableMethodCache(basePackages = {"com.fank243.cloud.service.user"})
 @EnableCreateCacheAnnotation
-@ComponentScan(basePackages = {"com.fank243.cloud.service.*", "com.fank243.cloud.component.*.**"})
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+@EntityScan(basePackages = {"com.fank243.cloud.service.*", "com.fank243.cloud.component.*.**"})
+@ComponentScan(basePackages = {"com.fank243.cloud.service.*", "com.fank243.cloud.component.*.**"})
 @EnableDiscoveryClient
 @SpringBootApplication
 public class ServiceUserApplication {

@@ -1,9 +1,6 @@
 server:
   port: 8201
 
-logging:
-  config: classpath:log4j2.xml
-
 spring:
   profiles:
     active: dev # 启动程序时通过指定环境实现：java -jar -Dspring.profiles.active=prod app.jar

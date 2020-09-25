@@ -16,12 +16,6 @@
             <groupId>com.fank243.cloud</groupId>
             <artifactId>cloud-common</artifactId>
         </dependency>
-        <!--log4j2 日志框架-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-
         <!--alibaba 服务注册与发现组件-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

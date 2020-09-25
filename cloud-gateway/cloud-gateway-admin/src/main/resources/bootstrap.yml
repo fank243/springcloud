@@ -2,13 +2,18 @@ server:
   port: 8000
 
 logging:
-  config: classpath:log4j2.xml
+  level:
+    org.springframework: info
+    org.hibernate: info
+    io.netty: error
+    com.alibaba.nacos: info
+    com.alibaba.nacos.client: error
 
 spring:
   application:
     name: cloud-gateway-admin
   profiles:
-    active: home
+    active: gateway,dev
   main:
       allow-bean-definition-overriding: true # 允许重名bean
   cloud:
@@ -19,8 +24,10 @@ spring:
         prefix: ${spring.application.name}
         file-extension: yml
         extension-configs:
+          - data-id: cloud-common.yml # 加载公共配置
           - data-id: cloud-common-jpa.yml # 加载JPA配置
           - data-id: cloud-common-nacos-discovery-metadata.yml # 设置nacos心跳参数
+
 ---
 spring:
   profiles: dev
