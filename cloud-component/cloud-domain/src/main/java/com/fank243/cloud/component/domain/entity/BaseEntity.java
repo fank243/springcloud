@@ -42,6 +42,7 @@ public abstract class BaseEntity implements Serializable {
 
     @JSONField(serialize = false)
     @LastModifiedDate
-    @Column(updatable = false, columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'")
+    @Column(updatable = false,
+        columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'")
     private Date lastModifiedDate;
 }

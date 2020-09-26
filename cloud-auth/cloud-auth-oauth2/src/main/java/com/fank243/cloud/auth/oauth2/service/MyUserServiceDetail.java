@@ -8,6 +8,8 @@ import com.fank243.cloud.component.domain.entity.SysPermission;
 import com.fank243.cloud.component.domain.entity.SysRole;
 import com.fank243.cloud.component.domain.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,6 +41,12 @@ public class MyUserServiceDetail implements UserDetailsService {
         log.info(WebUtils.getParams(request));
 
         SysUser sysUser = repository.findByUsername(username);
+        if (sysUser == null) {
+            throw new UsernameNotFoundException("账号或密码错误");
+        }
+        if (sysUser.getStatus() != 0) {
+            throw new DisabledException("账号已被禁止登录");
+        }
         CurrUser currUser = new CurrUser();
         currUser.setId(sysUser.getId());
         currUser.setUsername(username);

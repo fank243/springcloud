@@ -1,7 +1,6 @@
 package com.fank243.cloud.auth.oauth2.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -19,10 +18,6 @@ import javax.sql.DataSource;
 @Data
 @Configuration
 public class TokenConfig {
-
-    /** jwt sign key **/
-    @Value("${fank.jwt.sign-key:}")
-    private String signKey;
 
     @Resource
     private DataSource dataSource;

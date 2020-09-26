@@ -1,5 +1,6 @@
 package com.fank243.cloud.component.domain.dto;
 
+import com.fank243.cloud.component.domain.utils.EntityUtils;
 import lombok.Data;
 
 import java.io.Serializable;

@@ -7,17 +7,23 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -78,34 +84,74 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> delegates = new ArrayList<>();
+        List<TokenEnhancer> delegates = new ArrayList<>(2);
         delegates.add(jwtTokenEnhancer);
-        delegates.add(jwtAccessTokenConverter());
-        enhancerChain.setTokenEnhancers(delegates); // 配置JWT的内容增强器
-        // 配置Token的存储方式
+        // 适用JWT转换器
+        delegates.add(accessTokenConverter());
+        enhancerChain.setTokenEnhancers(delegates);
+
+        // @formatter:off
         endpoints.tokenStore(tokenStore)
-            // 适用JWT转换器
-            .accessTokenConverter(jwtAccessTokenConverter())
             // 注入WebSecurityConfig配置的bean
             .authenticationManager(authenticationManager)
             // 读取用户的验证信息
             .userDetailsService(myUserServiceDetail)
-            //
-            .tokenEnhancer(enhancerChain);
+            // 自定义jwt payload
+            .tokenEnhancer(enhancerChain)
+            .exceptionTranslator(webResponseExceptionTranslator())
+        ;
+        // @formatter:on
     }
 
     /** 令牌安全策略配置 **/
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        // @formatter:off
         oauthServer
             // 设置密码加密方式
             .passwordEncoder(passwordEncoder())
-            // /oauth/token_key 申请token时不需要认证
-            .tokenKeyAccess("permitAll()")
-            // oauth/check_token 校验token时不需要认证
-            .checkTokenAccess("permitAll()")
-            // 需要设置allowFormAuthenticationForClients = true ,否则申请token返回401
-            .allowFormAuthenticationForClients();
+            // 允许通过表单方式向 /oauth/token 接口申请令牌
+            .allowFormAuthenticationForClients()
+            // /oauth/token_key 获取token时需要认证,免认证参数:permitAll
+            .tokenKeyAccess("isAuthenticated()")
+            // oauth/check_token 校验token时需要认证,免认证参数:permitAll
+            .checkTokenAccess("isAuthenticated()")
+            // /oauth/token_key 或者 /oauth/check_token 如果使用isAuthenticated()认证方式需要添加以下过滤器
+            // 同时使用POST提交的参数有三个client_id(用户名),client_secret(用户名对应的密码),token(申请到的令牌),不需要添加Header参数Authorization
+            // 需要注意的是,client_id和client_secret参数对应的是登录的用户名和密码,并非/oauth/check_token是中的参数客户端ID和客户端秘钥
+            .addTokenEndpointAuthenticationFilter(checkTokenEndpointFilter())
+        ;
+        // @formatter:on
+    }
+
+    @Bean
+    public WebResponseExceptionTranslator<OAuth2Exception> webResponseExceptionTranslator() {
+        return new DefaultWebResponseExceptionTranslator() {
+            @Override
+            public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+                ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
+                OAuth2Exception body = responseEntity.getBody();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setAll(responseEntity.getHeaders().toSingleValueMap());
+
+                assert body != null;
+                int status = body.getHttpErrorCode();
+                String message = body.getMessage();
+                String oAuth2ErrorCode = body.getOAuth2ErrorCode();
+                String summary = body.getSummary();
+
+                return new ResponseEntity<>(body, headers, responseEntity.getStatusCode());
+            }
+        };
+    }
+
+    /** 允许以认证方式访问校验token接口 **/
+    @Bean
+    public ClientCredentialsTokenEndpointFilter checkTokenEndpointFilter() {
+        ClientCredentialsTokenEndpointFilter filter = new ClientCredentialsTokenEndpointFilter("/oauth/check_token");
+        filter.setAuthenticationManager(authenticationManager);
+        filter.setAllowOnlyPost(true);
+        return filter;
     }
 
     /** 认证信息存储 **/
@@ -123,18 +169,19 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /** JWT TOKEN 生成策略 **/
     @Bean
-    JwtAccessTokenConverter jwtAccessTokenConverter() {
+    JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setKeyPair(keyPair());
         return jwtAccessTokenConverter;
     }
 
+    /** 加载JKS证书 **/
     @Bean
-    public KeyPair keyPair() {
-        // 从classpath下的证书中获取秘钥对
-        KeyStoreKeyFactory keyStoreKeyFactory =
-            new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
+    KeyPair keyPair() {
+        char[] chars = "123456".toCharArray();
+        ClassPathResource resource = new ClassPathResource("jwt.jks");
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(resource, chars);
+        return keyStoreKeyFactory.getKeyPair("jwt", chars);
     }
 
     @Bean

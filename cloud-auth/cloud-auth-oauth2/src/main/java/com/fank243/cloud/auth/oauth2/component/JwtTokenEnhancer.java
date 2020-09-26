@@ -1,27 +1,36 @@
 package com.fank243.cloud.auth.oauth2.component;
 
+import cn.hutool.core.map.MapUtil;
 import com.fank243.cloud.auth.oauth2.model.MyUserDetails;
+import com.fank243.cloud.component.common.properties.CommonProperties;
+import com.fank243.cloud.component.domain.utils.EntityUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.Resource;
 
 /**
- * JWT内容增强器 Created by macro on 2020/6/19.
+ * JWT payload 添加自定义参数
+ * 
+ * @author FanWeiJie
+ * @date 2020-09-25 22:45:45
  */
 @Component
 public class JwtTokenEnhancer implements TokenEnhancer {
+
+    @Resource
+    private CommonProperties commonProperties;
+
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        MyUserDetails securityUser = (MyUserDetails)authentication.getPrincipal();
-        Map<String, Object> info = new HashMap<>();
-        // 把用户ID设置到JWT中
-        info.put("id", securityUser.getCurrUser().getId());
-        ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
+        MyUserDetails userDetails = (MyUserDetails)authentication.getPrincipal();
+        DefaultOAuth2AccessToken oAuth2AccessToken = (DefaultOAuth2AccessToken)accessToken;
+        // 添加参数到jwt payload 中
+        String un = EntityUtils.encrypt(commonProperties.getDesKey(), userDetails.getCurrUser().getId() + "");
+        oAuth2AccessToken.setAdditionalInformation(MapUtil.of("un", un));
         return accessToken;
     }
 }

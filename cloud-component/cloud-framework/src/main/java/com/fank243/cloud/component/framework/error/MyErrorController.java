@@ -1,10 +1,17 @@
 package com.fank243.cloud.component.framework.error;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.fank243.cloud.component.common.exception.BaseException;
+import com.fank243.cloud.component.common.exception.ForbiddenException;
 import com.fank243.cloud.component.common.exception.NotFoundException;
+import com.fank243.cloud.component.common.exception.UnauthorizedException;
+import com.fank243.cloud.component.common.utils.ResultInfo;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +48,29 @@ public class MyErrorController extends BasicErrorController {
     @SneakyThrows
     @Override
     public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
-        throw new NotFoundException();
+        Map<String, Object> errMap = getErrorAttributes(request, ErrorAttributeOptions.defaults());
+
+        ResultInfo result = BeanUtil.toBeanIgnoreError(errMap, ResultInfo.class);
+
+        HttpStatus httpStatus = getStatus(request);
+        switch (httpStatus) {
+            // 401
+            case UNAUTHORIZED:
+                throw new UnauthorizedException(result);
+
+            // 403
+            case FORBIDDEN:
+                throw new ForbiddenException(result);
+
+            // 404
+            case NOT_FOUND:
+                throw new NotFoundException(result);
+
+            default:
+        }
+
+        // 500
+        throw new BaseException(result);
     }
 
 }

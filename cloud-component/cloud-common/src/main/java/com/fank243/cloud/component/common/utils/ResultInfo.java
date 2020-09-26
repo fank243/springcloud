@@ -1,5 +1,6 @@
 package com.fank243.cloud.component.common.utils;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.cloud.component.common.enums.ResultCode;
@@ -24,6 +25,9 @@ public class ResultInfo implements Serializable {
     /** 错误消息 */
     public String message = ResultCode.R500.getMessage();
 
+    /** ERROR */
+    public String error = "";
+
     /**
      * 成功标志符
      *
@@ -31,7 +35,7 @@ public class ResultInfo implements Serializable {
      *
      * 如果失败则结果一定为false，同时可提供code的值作进一步处理
      */
-    private boolean success;
+    private boolean success = Boolean.FALSE;
 
     /** 时间戳 **/
     private Long timestamp = System.currentTimeMillis();
@@ -40,6 +44,10 @@ public class ResultInfo implements Serializable {
     private String path = "";
 
     private Object payload = "";
+
+    public String getMessage() {
+        return StrUtil.isNotBlank(this.message) ? message : ErrUtils.getMessage(this.status);
+    }
 
     public ResultInfo() {}
 
@@ -78,6 +86,11 @@ public class ResultInfo implements Serializable {
         return this;
     }
 
+    public ResultInfo error(String error) {
+        this.error = error;
+        return this;
+    }
+
     public ResultInfo success(boolean success) {
         this.success = success;
         return this;
@@ -95,6 +108,15 @@ public class ResultInfo implements Serializable {
     public static ResultInfo ok(Object payload) {
         return new ResultInfo().success(true).status(ResultCode.R200.getStatus()).message(ResultCode.R200.getMessage())
             .payload(payload);
+    }
+
+    public static ResultInfo err400() {
+        return new ResultInfo().success(false).message(ResultCode.R400.getMessage())
+            .status(ResultCode.R401.getStatus());
+    }
+
+    public static ResultInfo err400(String msg) {
+        return new ResultInfo().success(false).message(msg).status(ResultCode.R400.getStatus());
     }
 
     public static ResultInfo err401() {
@@ -125,21 +147,25 @@ public class ResultInfo implements Serializable {
             .message(ResultCode.R404.getMessage());
     }
 
+    public static ResultInfo err404(String message) {
+        return new ResultInfo().success(false).status(ResultCode.R404.getStatus()).message(message);
+    }
+
     public static ResultInfo err405() {
         return new ResultInfo().success(false).message(ResultCode.R405.getMessage())
             .status(ResultCode.R405.getStatus());
     }
 
-    public static ResultInfo error() {
+    public static ResultInfo err500() {
         return new ResultInfo().success(false).message(ResultCode.R500.getMessage())
             .status(ResultCode.R500.getStatus());
     }
 
-    public static ResultInfo error(String msg) {
+    public static ResultInfo err500(String msg) {
         return new ResultInfo().success(false).message(msg).status(ResultCode.R500.getStatus());
     }
 
-    public static ResultInfo error(int status, String msg) {
+    public static ResultInfo err500(int status, String msg) {
         return new ResultInfo().success(false).message(msg).status(status);
     }
 

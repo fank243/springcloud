@@ -9,7 +9,7 @@ spring:
   application:
     name: cloud-auth-oauth2
   profiles:
-    active: dev
+    active: home
   main:
     allow-bean-definition-overriding: true
   cloud:

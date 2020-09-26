@@ -1,8 +1,12 @@
 package com.fank243.cloud.component.domain.utils;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 
 /**
  * JPA 实体工具类
@@ -10,6 +14,7 @@ import java.lang.reflect.Field;
  * @author FanWeiJie
  * @date 2020-09-19 22:44:43
  */
+@Component
 public class EntityUtils {
 
     /**
@@ -45,5 +50,35 @@ public class EntityUtils {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 字段加密
+     * 
+     * @param desKey key
+     * @param data 字段
+     * @return 密文
+     */
+    public static String encrypt(String desKey, String data) {
+        data += "_" + System.currentTimeMillis();
+        return SecureUtil.des(desKey.getBytes(StandardCharsets.UTF_8)).encryptHex(data).toLowerCase();
+    }
+
+    /**
+     * 字段解密
+     *
+     * @param desKey key
+     * @param data 密文
+     * @return 明文
+     */
+    public static String decrypt(String desKey, String data) {
+        String plainTxt = SecureUtil.des(desKey.getBytes(StandardCharsets.UTF_8)).decryptStr(data);
+        if (StrUtil.isBlank(plainTxt)) {
+            return null;
+        }
+        return plainTxt.split("_")[0];
+    }
+
+    public static void main(String[] args) {
     }
 }

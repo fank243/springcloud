@@ -34,54 +34,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /** 访问策略 **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // http
-        // // 禁用跨站拦截
-        // .csrf().disable()
-        // // 禁用 HTTP Basic 认证
-        // .httpBasic().disable()
-        // //
-        // .requestMatchers().anyRequest()
-        // // 请求拦截
-        // .and().authorizeRequests()
-        // // 放行oauth2认证请求
-        // .antMatchers("/oauth/**").permitAll()
-        // .antMatchers("/oauth2/**").permitAll()
-        // // 其他请求需要认证
-        // .anyRequest().authenticated()
-        // //
-        // .and().exceptionHandling()
-        // // 未授权
-        // .accessDeniedHandler((request, response, accessDeniedException) -> {
-        // log.error("accessDeniedException == >{}", accessDeniedException.toString());
-        // response.setStatus(HttpStatus.FORBIDDEN.value());
-        // WebUtils.printJson(response, ResultInfo.err403());
-        // })
-        // // 未认证
-        // .authenticationEntryPoint((request, response, authException) -> {
-        // log.error("authException == >{}", authException.toString());
-        // response.setStatus(HttpStatus.FORBIDDEN.value());
-        // WebUtils.printJson(response, ResultInfo.err403());
-        // });
         // @formatter:off
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers("/rsa/publicKey").permitAll()
-                .anyRequest().authenticated()
-                .and().exceptionHandling()
-                // 未授权
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    log.error("accessDeniedException == >{}", accessDeniedException.toString());
-                    response.setStatus(HttpStatus.FORBIDDEN.value());
-                    WebUtils.printJson(response, ResultInfo.err403());
-                })
-                // 未认证
-                .authenticationEntryPoint((request, response, authException) -> {
-                    log.error("authException == >{}", authException.toString());
-                    response.setStatus(HttpStatus.FORBIDDEN.value());
-                    WebUtils.printJson(response, ResultInfo.err403());
-                });
+            .csrf().disable()
+            .authorizeRequests()
+            .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+            .antMatchers("/rsa/publicKey").permitAll()
+            .anyRequest().authenticated()
+            .and().exceptionHandling()
+            // 未授权
+            .accessDeniedHandler((request, response, accessDeniedException) -> {
+                log.error("accessDeniedException == >{}", accessDeniedException.toString());
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                WebUtils.printJson(response, ResultInfo.err403());
+            })
+            // 未认证
+            .authenticationEntryPoint((request, response, authException) -> {
+                log.error("authException == >{}", authException.toString());
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                WebUtils.printJson(response, ResultInfo.err403());
+            });
         // @formatter:on
     }
 

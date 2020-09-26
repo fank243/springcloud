@@ -12,6 +12,7 @@
  */
 package com.fank243.cloud.gateway.admin.config;
 
+import com.fank243.cloud.gateway.admin.component.AuthorizationManager;
 import com.fank243.cloud.gateway.admin.component.RestAuthenticationEntryPoint;
 import com.fank243.cloud.gateway.admin.component.RestfulAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
@@ -37,8 +42,8 @@ import javax.annotation.Resource;
 @EnableWebFluxSecurity
 public class WebFluxSecurityConfig {
 
-//    @Resource
-//    private AuthorizationManager authorizationManager;
+    @Resource
+    private AuthorizationManager authorizationManager;
     @Resource
     private RestAuthenticationEntryPoint authenticationEntryPoint;
     @Resource
@@ -46,24 +51,23 @@ public class WebFluxSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
-        // 自定义处理JWT请求头过期或签名错误的结果
-        http.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint);
         //@formatter:off
          http.csrf().disable()
             .authorizeExchange()
             .pathMatchers("/api/oauth/**").permitAll()
              // 鉴权管理器配置
-//            .anyExchange().access(authorizationManager)
+            .anyExchange().access(authorizationManager)
             .and().exceptionHandling()
+             // 鉴权失败 403
             .accessDeniedHandler(accessDeniedHandler)
+             // 认证失败 401
             .authenticationEntryPoint(authenticationEntryPoint)
-//            .and()
-//            .httpBasic().disable()
-//            .formLogin().disable()
-//            .logout().disable()
-         .and()
-         .headers().cache().disable()
+             // oauth2
+            .and().oauth2ResourceServer()
+            // JWT TOKEN 验证失败或过期 401
+            .authenticationEntryPoint(authenticationEntryPoint)
+             // JWT 验证器
+            .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
         ;
         //@formatter:on
         return http.build();

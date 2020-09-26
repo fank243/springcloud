@@ -1,19 +1,11 @@
 server:
   port: 8000
 
-logging:
-  level:
-    org.springframework: info
-    org.hibernate: info
-    io.netty: error
-    com.alibaba.nacos: info
-    com.alibaba.nacos.client: error
-
 spring:
   application:
     name: cloud-gateway-admin
   profiles:
-    active: gateway,dev
+    active: gateway,home
   main:
       allow-bean-definition-overriding: true # 允许重名bean
   cloud:
