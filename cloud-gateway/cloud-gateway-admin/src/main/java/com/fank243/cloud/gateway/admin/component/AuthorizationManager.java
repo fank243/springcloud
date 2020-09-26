@@ -1,6 +1,6 @@
 package com.fank243.cloud.gateway.admin.component;
 
-import com.fank243.cloud.component.common.service.RedisService;
+import com.fank243.cloud.gateway.admin.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;

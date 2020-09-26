@@ -1,7 +1,7 @@
 package com.fank243.cloud.component.framework.error;
 
-import com.fank243.cloud.component.common.exception.*;
-import com.fank243.cloud.component.common.utils.ResultInfo;
+import com.fank243.cloud.tool.exception.*;
+import com.fank243.cloud.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;

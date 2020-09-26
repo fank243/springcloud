@@ -1,6 +1,6 @@
 package com.fank243.cloud.component.domain.entity;
 
-import com.fank243.cloud.component.domain.utils.EntityUtils;
+import com.fank243.cloud.tool.utils.EntityUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

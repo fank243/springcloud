@@ -13,7 +13,7 @@
 
 package com.fank243.cloud.gateway.core.web.error;
 
-import com.fank243.cloud.component.common.enums.ResultCode;
+import com.fank243.cloud.gateway.core.enums.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;

@@ -26,11 +26,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
-                <artifactId>cloud-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
