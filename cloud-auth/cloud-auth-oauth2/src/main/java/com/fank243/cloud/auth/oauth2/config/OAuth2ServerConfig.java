@@ -1,19 +1,17 @@
 package com.fank243.cloud.auth.oauth2.config;
 
 import com.fank243.cloud.auth.oauth2.component.JwtTokenEnhancer;
+import com.fank243.cloud.auth.oauth2.exception.MyOauth2ExceptionTranslator;
 import com.fank243.cloud.auth.oauth2.service.MyUserServiceDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -22,8 +20,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -50,6 +46,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private MyOauth2ExceptionTranslator myOauth2ExceptionTranslator;
 
     @Resource
     private TokenStore tokenStore;
@@ -98,7 +96,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
             .userDetailsService(myUserServiceDetail)
             // 自定义jwt payload
             .tokenEnhancer(enhancerChain)
-            .exceptionTranslator(webResponseExceptionTranslator())
+            .exceptionTranslator(myOauth2ExceptionTranslator)
         ;
         // @formatter:on
     }
@@ -122,27 +120,6 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
             .addTokenEndpointAuthenticationFilter(checkTokenEndpointFilter())
         ;
         // @formatter:on
-    }
-
-    @Bean
-    public WebResponseExceptionTranslator<OAuth2Exception> webResponseExceptionTranslator() {
-        return new DefaultWebResponseExceptionTranslator() {
-            @Override
-            public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
-                ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
-                OAuth2Exception body = responseEntity.getBody();
-                HttpHeaders headers = new HttpHeaders();
-                headers.setAll(responseEntity.getHeaders().toSingleValueMap());
-
-                assert body != null;
-                int status = body.getHttpErrorCode();
-                String message = body.getMessage();
-                String oAuth2ErrorCode = body.getOAuth2ErrorCode();
-                String summary = body.getSummary();
-
-                return new ResponseEntity<>(body, headers, responseEntity.getStatusCode());
-            }
-        };
     }
 
     /** 允许以认证方式访问校验token接口 **/

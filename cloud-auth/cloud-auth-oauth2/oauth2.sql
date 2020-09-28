@@ -38,15 +38,15 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `oatuh2`.`oauth_approvals`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oauth_approvals` (
-  `userId` VARCHAR(256) NULL DEFAULT NULL,
-  `clientId` VARCHAR(256) NULL DEFAULT NULL,
-  `scope` VARCHAR(256) NULL DEFAULT NULL,
-  `status` VARCHAR(10) NULL DEFAULT NULL,
-  `expiresAt` DATETIME NULL DEFAULT NULL,
-  `lastModifiedAt` DATETIME NULL DEFAULT NULL)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+# CREATE TABLE IF NOT EXISTS `oauth_approvals` (
+#   `userId` VARCHAR(256) NULL DEFAULT NULL,
+#   `clientId` VARCHAR(256) NULL DEFAULT NULL,
+#   `scope` VARCHAR(256) NULL DEFAULT NULL,
+#   `status` VARCHAR(10) NULL DEFAULT NULL,
+#   `expiresAt` DATETIME NULL DEFAULT NULL,
+#   `lastModifiedAt` DATETIME NULL DEFAULT NULL)
+# ENGINE = InnoDB
+# DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -72,25 +72,25 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `oatuh2`.`oauth_client_token`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oauth_client_token` (
-  `token_id` VARCHAR(256) NULL DEFAULT NULL,
-  `token` BLOB NULL DEFAULT NULL,
-  `authentication_id` VARCHAR(128) NOT NULL,
-  `user_name` VARCHAR(256) NULL DEFAULT NULL,
-  `client_id` VARCHAR(256) NULL DEFAULT NULL,
-  PRIMARY KEY (`authentication_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+# CREATE TABLE IF NOT EXISTS `oauth_client_token` (
+#   `token_id` VARCHAR(256) NULL DEFAULT NULL,
+#   `token` BLOB NULL DEFAULT NULL,
+#   `authentication_id` VARCHAR(128) NOT NULL,
+#   `user_name` VARCHAR(256) NULL DEFAULT NULL,
+#   `client_id` VARCHAR(256) NULL DEFAULT NULL,
+#   PRIMARY KEY (`authentication_id`))
+# ENGINE = InnoDB
+# DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
 -- Table `oatuh2`.`oauth_code`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oauth_code` (
-  `code` VARCHAR(256) NULL DEFAULT NULL,
-  `authentication` BLOB NULL DEFAULT NULL)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+# CREATE TABLE IF NOT EXISTS `oauth_code` (
+#   `code` VARCHAR(256) NULL DEFAULT NULL,
+#   `authentication` BLOB NULL DEFAULT NULL)
+# ENGINE = InnoDB
+# DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------

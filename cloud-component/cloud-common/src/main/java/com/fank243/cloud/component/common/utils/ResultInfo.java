@@ -156,6 +156,10 @@ public class ResultInfo implements Serializable {
             .status(ResultCode.R405.getStatus());
     }
 
+    public static ResultInfo err405(String message) {
+        return new ResultInfo().success(false).message(message).status(ResultCode.R405.getStatus());
+    }
+
     public static ResultInfo err500() {
         return new ResultInfo().success(false).message(ResultCode.R500.getMessage())
             .status(ResultCode.R500.getStatus());

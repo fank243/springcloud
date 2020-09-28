@@ -5,7 +5,7 @@ spring:
   application:
     name: cloud-gateway-admin
   profiles:
-    active: gateway,home
+    active: gateway,dev
   main:
       allow-bean-definition-overriding: true # 允许重名bean
   cloud:

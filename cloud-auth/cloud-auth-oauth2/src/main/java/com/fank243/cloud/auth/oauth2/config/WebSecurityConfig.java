@@ -1,14 +1,10 @@
 package com.fank243.cloud.auth.oauth2.config;
 
-import com.fank243.cloud.auth.oauth2.component.JwtTokenEnhancer;
-import com.fank243.cloud.component.common.utils.ResultInfo;
-import com.fank243.cloud.component.common.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,20 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
             .antMatchers("/rsa/publicKey").permitAll()
-            .anyRequest().authenticated()
-            .and().exceptionHandling()
-            // 未授权
-            .accessDeniedHandler((request, response, accessDeniedException) -> {
-                log.error("accessDeniedException == >{}", accessDeniedException.toString());
-                response.setStatus(HttpStatus.FORBIDDEN.value());
-                WebUtils.printJson(response, ResultInfo.err403());
-            })
-            // 未认证
-            .authenticationEntryPoint((request, response, authException) -> {
-                log.error("authException == >{}", authException.toString());
-                response.setStatus(HttpStatus.FORBIDDEN.value());
-                WebUtils.printJson(response, ResultInfo.err403());
-            });
+            .anyRequest().authenticated();
         // @formatter:on
     }
 
