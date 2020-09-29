@@ -1,5 +1,7 @@
 package com.fank243.cloud.auth.oauth2.config;
 
+import com.fank243.cloud.component.common.utils.WebUtils;
+import com.fank243.cloud.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;

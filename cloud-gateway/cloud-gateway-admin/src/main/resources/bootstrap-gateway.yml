@@ -30,6 +30,3 @@ spring:
           filters:
             - StripPrefix=1
           uri: lb://cloud-service-notice
-      filter:
-        secure-headers:
-          content-security-policy:

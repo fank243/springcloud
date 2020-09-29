@@ -1,7 +1,7 @@
 package com.fank243.cloud.service.user.web.controller;
 
-import com.fank243.cloud.component.common.utils.ResultInfo;
 import com.fank243.cloud.component.common.utils.WebUtils;
+import com.fank243.cloud.tool.utils.ResultInfo;
 import com.fank243.cloud.component.domain.dto.CurrUser;
 import com.fank243.cloud.component.domain.dto.UserFormDTO;
 import com.fank243.cloud.component.domain.entity.SysPermission;

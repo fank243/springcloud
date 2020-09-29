@@ -16,6 +16,7 @@
             <groupId>com.fank243.cloud</groupId>
             <artifactId>cloud-common</artifactId>
         </dependency>
+
         <!--alibaba 服务注册与发现组件-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -35,6 +36,10 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 </project>

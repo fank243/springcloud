@@ -9,7 +9,6 @@ import com.fank243.cloud.component.domain.entity.SysRole;
 import com.fank243.cloud.component.domain.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

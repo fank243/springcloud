@@ -17,6 +17,7 @@
         <module>cloud-common</module>
         <module>cloud-framework</module>
         <module>cloud-domain</module>
+        <module>cloud-tool</module>
     </modules>
 
     <properties>
@@ -27,6 +28,16 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fank243.cloud</groupId>
+                <artifactId>cloud-tool</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.cloud</groupId>
+                <artifactId>cloud-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-common</artifactId>

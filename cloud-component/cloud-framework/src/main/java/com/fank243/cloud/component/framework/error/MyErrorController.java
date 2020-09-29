@@ -1,11 +1,12 @@
 package com.fank243.cloud.component.framework.error;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.fank243.cloud.component.common.exception.BaseException;
-import com.fank243.cloud.component.common.exception.ForbiddenException;
-import com.fank243.cloud.component.common.exception.NotFoundException;
-import com.fank243.cloud.component.common.exception.UnauthorizedException;
-import com.fank243.cloud.component.common.utils.ResultInfo;
+import com.fank243.cloud.tool.exception.BaseException;
+import com.fank243.cloud.tool.exception.ForbiddenException;
+import com.fank243.cloud.tool.exception.NotFoundException;
+import com.fank243.cloud.tool.exception.UnauthorizedException;
+import com.fank243.cloud.tool.utils.ErrUtils;
+import com.fank243.cloud.tool.utils.ResultInfo;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
@@ -53,24 +54,8 @@ public class MyErrorController extends BasicErrorController {
         ResultInfo result = BeanUtil.toBeanIgnoreError(errMap, ResultInfo.class);
 
         HttpStatus httpStatus = getStatus(request);
-        switch (httpStatus) {
-            // 401
-            case UNAUTHORIZED:
-                throw new UnauthorizedException(result);
 
-            // 403
-            case FORBIDDEN:
-                throw new ForbiddenException(result);
-
-            // 404
-            case NOT_FOUND:
-                throw new NotFoundException(result);
-
-            default:
-        }
-
-        // 500
-        throw new BaseException(result);
+        throw ErrUtils.exception(httpStatus.value(), result);
     }
 
 }
