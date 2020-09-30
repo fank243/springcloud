@@ -16,6 +16,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.fank243.cloud</groupId>
+            <artifactId>cloud-common</artifactId>
+        </dependency>
+
         <!--Spring Boot DevTools-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -30,12 +35,12 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-framework</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-domain</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
         <dependency>

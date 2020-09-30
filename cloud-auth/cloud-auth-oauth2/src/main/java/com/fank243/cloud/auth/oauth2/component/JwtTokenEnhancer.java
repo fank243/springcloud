@@ -3,7 +3,7 @@ package com.fank243.cloud.auth.oauth2.component;
 import cn.hutool.core.map.MapUtil;
 import com.fank243.cloud.auth.oauth2.model.MyUserDetails;
 import com.fank243.cloud.tool.utils.EntityUtils;
-import com.fank243.cloud.component.framework.properties.CommonProperties;
+import com.fank243.cloud.component.common.properties.CommonProperties;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

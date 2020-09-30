@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.framework.service;
+package com.fank243.cloud.component.common.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

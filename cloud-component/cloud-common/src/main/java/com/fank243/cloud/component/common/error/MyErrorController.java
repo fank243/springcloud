@@ -1,10 +1,7 @@
-package com.fank243.cloud.component.framework.error;
+package com.fank243.cloud.component.common.error;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.fank243.cloud.tool.exception.BaseException;
-import com.fank243.cloud.tool.exception.ForbiddenException;
 import com.fank243.cloud.tool.exception.NotFoundException;
-import com.fank243.cloud.tool.exception.UnauthorizedException;
 import com.fank243.cloud.tool.utils.ErrUtils;
 import com.fank243.cloud.tool.utils.ResultInfo;
 import lombok.SneakyThrows;

@@ -14,12 +14,17 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-framework</artifactId>
+            <artifactId>cloud-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-domain</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.alicp.jetcache</groupId>
@@ -51,7 +56,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
     </dependencies>
 
 

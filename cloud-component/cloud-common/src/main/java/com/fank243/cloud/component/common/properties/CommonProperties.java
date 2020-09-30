@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.framework.properties;
+package com.fank243.cloud.component.common.properties;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

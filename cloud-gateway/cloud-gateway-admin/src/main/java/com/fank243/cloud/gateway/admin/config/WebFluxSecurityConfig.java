@@ -3,6 +3,7 @@ package com.fank243.cloud.gateway.admin.config;
 import com.fank243.cloud.gateway.admin.component.AuthorizationManager;
 import com.fank243.cloud.gateway.admin.component.RestAuthenticationEntryPoint;
 import com.fank243.cloud.gateway.admin.component.RestfulAccessDeniedHandler;
+import com.fank243.cloud.gateway.core.constants.SecurityConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
 
 /**
  * Spring Security Oauth2 Configuration
- * 
+ *
  * @author FanWeiJie
  * @date 2020-09-26 19:08:01
  */
@@ -62,10 +63,12 @@ public class WebFluxSecurityConfig {
     @Bean
     Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(SecurityConstants.AUTHORITY_PREFIX);
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConstants.AUTHORITIES_CLAIM_NAME);
+
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.framework.config;
+package com.fank243.cloud.gateway.core.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -15,7 +15,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * redis configuration
- * 
+ *
  * @author FanWeiJie
  * @date 2020-09-14 18:01:56
  */

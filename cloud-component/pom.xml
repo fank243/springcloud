@@ -15,7 +15,6 @@
     <modules>
         <!--公共模块-->
         <module>cloud-common</module>
-        <module>cloud-framework</module>
         <module>cloud-domain</module>
         <module>cloud-tool</module>
     </modules>

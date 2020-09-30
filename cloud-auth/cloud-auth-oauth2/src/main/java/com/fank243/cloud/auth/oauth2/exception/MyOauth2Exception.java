@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
- * Default translator that converts exceptions into {@link OAuth2Exception}s. The output matches the OAuth 2.0
- * specification in terms of error response format and HTTP status code.
+ * 自定义oauth2异常JSON
  *
- * @author Dave Syer
- *
+ * @author FanWeiJie
+ * @date 2020-09-29 16:28:40
  */
 @JsonSerialize(using = MyOauth2ExceptionSerializer.class)
 public class MyOauth2Exception extends OAuth2Exception {

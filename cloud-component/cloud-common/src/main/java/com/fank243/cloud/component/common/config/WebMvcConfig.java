@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.framework.config;
+package com.fank243.cloud.component.common.config;
 
 import com.fank243.cloud.component.common.annotation.Interceptor;
 import lombok.extern.slf4j.Slf4j;

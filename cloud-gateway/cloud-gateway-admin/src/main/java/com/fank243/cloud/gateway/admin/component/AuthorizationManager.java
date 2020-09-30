@@ -25,12 +25,20 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         // 从Redis中获取当前路径可访问角色列表
         List<String> authorities = new ArrayList<>();
-        authorities.add("ROLE_ADMIN");
+        authorities.add("ROLE_ROOT");
+        authorities.add("perm:menu:query");
         authorities.add("ROLE_USER");
+
         // 认证通过且角色匹配的用户可访问当前路径
-        return mono.filter(Authentication::isAuthenticated).flatMapIterable(Authentication::getAuthorities)
-            .map(GrantedAuthority::getAuthority).any(authorities::contains).map(AuthorizationDecision::new)
+        // @formatter:off
+        return mono.filter(Authentication::isAuthenticated)
+            .flatMapIterable(Authentication::getAuthorities)
+            .map(GrantedAuthority::getAuthority)
+            // 认证通过
+            .any(authorities::contains).map(AuthorizationDecision::new)
+            // 授权不通过 > 403
             .defaultIfEmpty(new AuthorizationDecision(false));
+        // @formatter:on
     }
 
 }

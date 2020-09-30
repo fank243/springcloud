@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.framework.config;
+package com.fank243.cloud.component.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -18,4 +18,9 @@ public class SecurityConstants {
     /** rememberMe 为 true 的时候过期时间是7天 */
     public static final long EXPIRATION_REMEMBER = 60 * 60 * 24 * 7L;
 
+    /** 权限前缀 **/
+    public static final String AUTHORITY_PREFIX = "perm:";
+    /** 权限前缀 **/
+    public static final String AUTHORITIES_CLAIM_NAME = "authorities";
+
 }

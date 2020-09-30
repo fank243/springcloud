@@ -4,7 +4,6 @@ import com.fank243.cloud.auth.oauth2.model.MyUserDetails;
 import com.fank243.cloud.auth.oauth2.repository.SysUserRepository;
 import com.fank243.cloud.component.common.utils.WebUtils;
 import com.fank243.cloud.component.domain.dto.CurrUser;
-import com.fank243.cloud.component.domain.entity.SysPermission;
 import com.fank243.cloud.component.domain.entity.SysRole;
 import com.fank243.cloud.component.domain.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +53,11 @@ public class MyUserServiceDetail implements UserDetailsService {
         List<String> permList = new ArrayList<>();
         Set<SysRole> roles = sysUser.getRoles();
         for (SysRole sysRole : roles) {
+            // @formatter:off
             permList.addAll(
-                sysRole.getPermissions().stream().map(SysPermission::getPermission).collect(Collectors.toList()));
+                sysRole.getPermissions().stream().map((permission) -> permission.getPermission().toLowerCase()).collect(Collectors.toList())
+            );
+            // @formatter:on
         }
 
         currUser.setPermList(permList);

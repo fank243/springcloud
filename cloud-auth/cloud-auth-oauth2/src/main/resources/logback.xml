@@ -76,13 +76,6 @@
         <appender-ref ref="rollingFile"/>
     </Logger>
 
-    <!-- 开发环境屏蔽框架 DEBUG 日志 -->
-    <Logger name="org.springframework" level="INFO"/>
-    <Logger name="org.hibernate" level="INFO"/>
-    <Logger name="org.apache" level="INFO"/>
-    <Logger name="druid.sql" level="INFO"/>
-    <Logger name="com.alibaba.nacos" level="INFO"/>
-
     <!--默认日志级别-->
     <Root level="DEBUG">
         <appender-ref ref="console"/>

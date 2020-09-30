@@ -1,4 +1,4 @@
-package com.fank243.cloud.gateway.admin.config;
+package com.fank243.cloud.component.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

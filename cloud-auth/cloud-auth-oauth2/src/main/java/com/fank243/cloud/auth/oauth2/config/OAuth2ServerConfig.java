@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -84,7 +85,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>(2);
         delegates.add(jwtTokenEnhancer);
-        // 适用JWT转换器
+        // Token JWT转换器
         delegates.add(accessTokenConverter());
         enhancerChain.setTokenEnhancers(delegates);
 
@@ -92,6 +93,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         endpoints.tokenStore(tokenStore)
             // 注入WebSecurityConfig配置的bean
             .authenticationManager(authenticationManager)
+             // 允许请求的方法   
+            .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST)    
             // 读取用户的验证信息
             .userDetailsService(myUserServiceDetail)
             // 自定义jwt payload

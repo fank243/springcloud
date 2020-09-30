@@ -26,8 +26,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<String> permList = currUser.getPermList();
-        return AuthorityUtils.createAuthorityList(permList.toArray(new String[permList.size()]));
+        return AuthorityUtils.createAuthorityList(currUser.getPermList().toArray(new String[0]));
     }
 
     @Override

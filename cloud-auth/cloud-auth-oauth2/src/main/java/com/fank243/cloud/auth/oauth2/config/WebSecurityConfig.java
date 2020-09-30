@@ -1,7 +1,5 @@
 package com.fank243.cloud.auth.oauth2.config;
 
-import com.fank243.cloud.component.common.utils.WebUtils;
-import com.fank243.cloud.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -29,6 +27,9 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    public DataSource dataSource;
+
     /** 访问策略 **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,9 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated();
         // @formatter:on
     }
-
-    @Autowired
-    public DataSource dataSource;
 
     @Bean
     @Override

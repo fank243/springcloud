@@ -6,20 +6,18 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.stereotype.Component;
 
 /**
- * Default translator that converts exceptions into {@link OAuth2Exception}s. The output matches the OAuth 2.0
- * specification in terms of error response format and HTTP status code.
+ * 自定义oauth2异常JSON
  *
- * @author Dave Syer
- *
+ * @author FanWeiJie
+ * @date 2020-09-29 16:28:40
  */
 @Component
-public class MyOauth2ExceptionTranslator implements WebResponseExceptionTranslator {
+public class MyOauth2ExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) {
         OAuth2Exception oAuth2Exception = (OAuth2Exception)e;
-
-        return ResponseEntity.status(oAuth2Exception.getHttpErrorCode())
-            .body(new MyOauth2Exception(oAuth2Exception.getMessage()));
+        MyOauth2Exception oauth2Exception = new MyOauth2Exception(oAuth2Exception.getMessage());
+        return ResponseEntity.status(oAuth2Exception.getHttpErrorCode()).body(oauth2Exception);
     }
 }

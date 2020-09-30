@@ -1,8 +1,9 @@
-package com.fank243.cloud.component.framework.error;
+package com.fank243.cloud.component.common.error;
 
 import com.fank243.cloud.tool.exception.*;
 import com.fank243.cloud.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -79,6 +80,13 @@ public class MyExceptionHandler {
     public ResultInfo handleBindException(HttpServletRequest request, BindException e) {
         return ResultInfo.err400(Objects.requireNonNull(e.getFieldError()).getDefaultMessage())
             .path(request.getRequestURI());
+    }
+
+    /** oauth2 jwt token 操作数据异常 **/
+    @ExceptionHandler(value = DuplicateKeyException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResultInfo handleDuplicateKeyException(HttpServletRequest request, DuplicateKeyException e) {
+        return ResultInfo.err500("操作数据库异常").path(request.getRequestURI());
     }
 
     /** 顶层异常 **/
