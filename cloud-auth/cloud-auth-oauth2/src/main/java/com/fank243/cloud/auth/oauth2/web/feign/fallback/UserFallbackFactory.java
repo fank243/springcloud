@@ -1,7 +1,7 @@
 package com.fank243.cloud.auth.oauth2.web.feign.fallback;
 
 import com.fank243.cloud.auth.oauth2.web.feign.user.UserFeignService;
-import com.fank243.cloud.tool.utils.ResultInfo;
+import com.fank243.cloud.component.tool.utils.ResultInfo;
 import com.fank243.cloud.component.domain.dto.UserFormDTO;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;

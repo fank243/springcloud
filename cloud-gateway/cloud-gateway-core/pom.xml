@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-domain</artifactId>
+            <artifactId>cloud-component-domain</artifactId>
         </dependency>
 
         <dependency>

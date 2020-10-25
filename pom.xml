@@ -34,6 +34,14 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--fank243 依赖-->
+            <dependency>
+                <groupId>com.fank243.maven</groupId>
+                <artifactId>fank243-dependencies</artifactId>
+                <version>${fank243.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!--Spring Cloud 依赖-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -55,14 +63,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--maven 依赖-->
-            <dependency>
-                <groupId>com.fank243.maven</groupId>
-                <artifactId>fank243-dependencies</artifactId>
-                <version>${fank243.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

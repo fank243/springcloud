@@ -1,6 +1,6 @@
 package com.fank243.cloud.service.user.service;
 
-import com.fank243.cloud.tool.utils.ResultInfo;
+import com.fank243.cloud.component.tool.utils.ResultInfo;
 import com.fank243.cloud.component.domain.entity.SysUser;
 import com.fank243.cloud.service.user.BaseTest;
 import org.junit.Test;

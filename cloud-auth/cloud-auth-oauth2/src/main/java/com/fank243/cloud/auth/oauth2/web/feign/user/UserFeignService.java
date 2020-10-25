@@ -1,7 +1,7 @@
 package com.fank243.cloud.auth.oauth2.web.feign.user;
 
 import com.fank243.cloud.auth.oauth2.web.feign.fallback.UserFallbackFactory;
-import com.fank243.cloud.tool.utils.ResultInfo;
+import com.fank243.cloud.component.tool.utils.ResultInfo;
 import com.fank243.cloud.component.domain.dto.UserFormDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

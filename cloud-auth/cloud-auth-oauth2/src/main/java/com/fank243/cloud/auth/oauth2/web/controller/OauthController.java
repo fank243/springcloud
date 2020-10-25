@@ -1,7 +1,7 @@
 package com.fank243.cloud.auth.oauth2.web.controller;
 
 import com.fank243.cloud.auth.oauth2.model.JwtToken;
-import com.fank243.cloud.tool.utils.ResultInfo;
+import com.fank243.cloud.component.tool.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;

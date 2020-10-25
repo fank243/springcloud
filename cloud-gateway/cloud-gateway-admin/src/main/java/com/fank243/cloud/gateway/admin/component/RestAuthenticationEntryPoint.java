@@ -1,7 +1,7 @@
 package com.fank243.cloud.gateway.admin.component;
 
 import cn.hutool.json.JSONUtil;
-import com.fank243.cloud.tool.utils.ResultInfo;
+import com.fank243.cloud.component.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;

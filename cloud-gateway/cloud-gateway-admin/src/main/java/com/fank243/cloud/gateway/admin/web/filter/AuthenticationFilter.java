@@ -3,8 +3,8 @@ package com.fank243.cloud.gateway.admin.web.filter;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.fank243.cloud.gateway.admin.service.RedisService;
 import com.fank243.cloud.gateway.core.constants.RedisConstants;
-import com.fank243.cloud.gateway.core.utils.ErrResult;
-import com.fank243.cloud.tool.utils.ResultInfo;
+import com.fank243.cloud.gateway.core.utils.ResponseUtils;
+import com.fank243.cloud.component.tool.utils.ResultInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -49,16 +49,16 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
         String token = request.getHeaders().getFirst("Authorization");
         if (StringUtils.isBlank(token)) {
-            return ErrResult.printJson(response, HttpStatus.UNAUTHORIZED, ResultInfo.err401());
+            return ResponseUtils.printJson(response, HttpStatus.UNAUTHORIZED, ResultInfo.err401());
         }
         // redis 校验
         Object obj = redisService.get(RedisConstants.SYS_CURR_USER);
         if (obj == null) {
-            return ErrResult.printJson(response, HttpStatus.FORBIDDEN, ResultInfo.err403());
+            return ResponseUtils.printJson(response, HttpStatus.FORBIDDEN, ResultInfo.err403());
         }
         // 匹配
         if (!obj.toString().equalsIgnoreCase(DigestUtil.md5Hex(token))) {
-            return ErrResult.printJson(response, HttpStatus.FORBIDDEN, ResultInfo.err403());
+            return ResponseUtils.printJson(response, HttpStatus.FORBIDDEN, ResultInfo.err403());
         }
 
         return chain.filter(exchange);

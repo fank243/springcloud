@@ -14,37 +14,26 @@
 
     <modules>
         <!--公共模块-->
-        <module>cloud-common</module>
-        <module>cloud-domain</module>
-        <module>cloud-tool</module>
+        <module>cloud-component-common</module>
+        <module>cloud-component-domain</module>
+        <module>cloud-component-tool</module>
     </modules>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
-                <artifactId>cloud-tool</artifactId>
+                <artifactId>cloud-component-tool</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
-                <artifactId>cloud-domain</artifactId>
+                <artifactId>cloud-component-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
-                <artifactId>cloud-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.cloud</groupId>
-                <artifactId>cloud-framework</artifactId>
+                <artifactId>cloud-component-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

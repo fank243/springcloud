@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-common</artifactId>
+            <artifactId>cloud-component-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -24,7 +24,6 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>com.alicp.jetcache</groupId>
