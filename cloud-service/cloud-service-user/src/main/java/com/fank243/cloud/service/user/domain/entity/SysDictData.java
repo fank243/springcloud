@@ -1,11 +1,8 @@
 package com.fank243.cloud.service.user.domain.entity;
 
 import com.fank243.cloud.component.domain.entity.BaseEntity;
-import com.fank243.cloud.component.tool.utils.EntityUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.persistence.*;
 
 /**
  * 字典数据表

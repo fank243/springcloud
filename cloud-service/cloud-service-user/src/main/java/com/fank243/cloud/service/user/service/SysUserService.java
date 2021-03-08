@@ -2,7 +2,7 @@ package com.fank243.cloud.service.user.service;
 
 import com.fank243.cloud.component.tool.utils.ResultInfo;
 import com.fank243.cloud.component.domain.entity.SysUser;
-import com.fank243.cloud.service.user.repository.SysUserRepository;
+import com.fank243.cloud.service.user.mapper.SysUserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,14 +16,14 @@ import javax.annotation.Resource;
 @Service
 public class SysUserService {
     @Resource
-    private SysUserRepository repository;
+    private SysUserMapper sysUserMapper;
 
     public SysUser findByUsername(String username){
-        return repository.findByUsername(username);
+        return sysUserMapper.findByUsername(username);
     }
 
     public ResultInfo addRecord(SysUser sysUser){
-        sysUser = repository.save(sysUser);
+        sysUser = sysUserMapper.addRecord(sysUser);
         return ResultInfo.ok(sysUser);
     }
 }

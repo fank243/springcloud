@@ -51,11 +51,11 @@ public class UserController {
         currUser.setUsername(sysUser.getUsername());
         currUser.setPassword(sysUser.getPassword());
 
-        List<String> permList = new ArrayList<>(1);
-        for (SysRole role : sysUser.getRoles()) {
-            permList = role.getPermissions().stream().map(SysPermission::getPermission).collect(Collectors.toList());
-        }
-        currUser.setPermList(permList);
+        // List<String> permList = new ArrayList<>(1);
+        // for (SysRole role : sysUser.getRoles()) {
+        // permList = role.getPermissions().stream().map(SysPermission::getPermission).collect(Collectors.toList());
+        // }
+        // currUser.setPermList(permList);
 
         return ResultInfo.ok(currUser);
     }
