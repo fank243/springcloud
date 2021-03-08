@@ -1,5 +1,6 @@
 package com.fank243.cloud.auth.oauth2;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -16,7 +17,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2020-09-17 09:54:46
  */
 @EnableFeignClients
-@EntityScan(basePackages = {"com.fank243.cloud.auth.*.**", "com.fank243.cloud.component.*.**"})
+//@EntityScan(basePackages = {"com.fank243.cloud.auth.*.**", "com.fank243.cloud.component.*.**"})
+@MapperScan(basePackages = {"com.fank243.cloud.auth.mapper"})
 @ConfigurationPropertiesScan(basePackages = {"com.fank243.cloud.auth.*.**", "com.fank243.cloud.component.*.**"})
 @ComponentScan(basePackages = {"com.fank243.cloud.auth.*.**", "com.fank243.cloud.component.*.**"})
 @EnableDiscoveryClient

@@ -1,6 +1,6 @@
 package com.fank243.cloud.gateway.admin.service;
 
-import com.fank243.cloud.gateway.admin.repository.SysUserRepository;
+import com.fank243.cloud.gateway.admin.mapper.SysUserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,5 +14,5 @@ import javax.annotation.Resource;
 @Service
 public class SysUserService {
     @Resource
-    private SysUserRepository repository;
+    private SysUserMapper repository;
 }

@@ -1,8 +1,8 @@
 package com.fank243.cloud.gateway.admin;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @author FanWeiJie
  * @date 2020-09-09 10:04:09
  */
-@EntityScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
+//@EntityScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
+@MapperScan(basePackages = {"com.fank243.cloud.gateway"})
 @ConfigurationPropertiesScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
 @ComponentScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
 @EnableDiscoveryClient

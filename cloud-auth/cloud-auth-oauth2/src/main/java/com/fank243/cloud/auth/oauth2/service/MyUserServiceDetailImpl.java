@@ -1,7 +1,9 @@
 package com.fank243.cloud.auth.oauth2.service;
 
+import com.fank243.cloud.auth.oauth2.mapper.SysPermMapper;
+import com.fank243.cloud.auth.oauth2.mapper.SysRoleMapper;
+import com.fank243.cloud.auth.oauth2.mapper.SysUserMapper;
 import com.fank243.cloud.auth.oauth2.model.MyUserDetails;
-import com.fank243.cloud.auth.oauth2.repository.SysUserRepository;
 import com.fank243.cloud.component.common.utils.WebUtils;
 import com.fank243.cloud.component.domain.dto.CurrUser;
 import com.fank243.cloud.component.domain.entity.SysRole;
@@ -17,7 +19,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -28,17 +29,22 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class MyUserServiceDetail implements UserDetailsService {
+public class MyUserServiceDetailImpl implements UserDetailsService {
     @Resource
-    private SysUserRepository repository;
+    private SysUserMapper sysUserMapper;
+    @Resource
+    private SysRoleMapper sysRoleMapper;
+    @Resource
+    private SysPermMapper sysPermMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         HttpServletRequest request = WebUtils.getRequest();
 
+        assert request != null;
         log.info(WebUtils.getParams(request));
 
-        SysUser sysUser = repository.findByUsername(username);
+        SysUser sysUser = sysUserMapper.findByUsername(username);
         if (sysUser == null) {
             throw new UsernameNotFoundException("账号或密码错误");
         }
@@ -51,11 +57,11 @@ public class MyUserServiceDetail implements UserDetailsService {
         currUser.setPassword(sysUser.getPassword());
 
         List<String> permList = new ArrayList<>();
-        Set<SysRole> roles = sysUser.getRoles();
+        List<SysRole> roles = sysRoleMapper.findBySysUserId(sysUser.getId());
         for (SysRole sysRole : roles) {
             // @formatter:off
             permList.addAll(
-                sysRole.getPermissions().stream().map((permission) -> permission.getPermission().toLowerCase()).collect(Collectors.toList())
+                    sysPermMapper.findByRoleId(sysRole.getId()).stream().map((permission) -> permission.getPermission().toLowerCase()).collect(Collectors.toList())
             );
             // @formatter:on
         }

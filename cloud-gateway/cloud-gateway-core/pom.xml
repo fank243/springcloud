@@ -63,6 +63,7 @@
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
 
+        <!--spring  security-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>

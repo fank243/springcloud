@@ -17,9 +17,8 @@ spring:
         file-extension: yml
         extension-configs:
           - data-id: cloud-common.yml # 加载公共配置
-          - data-id: cloud-common-jpa.yml # 加载JPA配置
+          - data-id: cloud-common-datasource.yml # 加载数据源
           - data-id: cloud-common-nacos-discovery-metadata.yml # 设置nacos心跳参数
-
 ---
 spring:
   profiles: dev
@@ -27,17 +26,8 @@ spring:
     nacos:
       discovery:
         # nacos web端地址，需要携带端口，多个使用`,`分割
-        server-addr: 192.168.8.119
-        namespace: 9edb3cd4-4273-444d-8d05-870a1d3c9df3
----
-spring:
-  profiles: home
-  cloud:
-    nacos:
-      discovery:
-        # nacos web端地址，需要携带端口，多个使用`,`分割
-        server-addr: 192.168.31.120
-        namespace: 59d2b4bc-392a-4f1b-adb0-bbc862cd5eab
+        server-addr: 192.168.31.116
+        namespace: f1aa413a-d6d6-449f-82b2-315ccb7302a4
 ---
 spring:
   profiles: test

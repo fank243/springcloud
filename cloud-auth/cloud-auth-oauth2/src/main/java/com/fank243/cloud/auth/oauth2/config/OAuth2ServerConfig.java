@@ -2,7 +2,7 @@ package com.fank243.cloud.auth.oauth2.config;
 
 import com.fank243.cloud.auth.oauth2.component.JwtTokenEnhancer;
 import com.fank243.cloud.auth.oauth2.exception.MyOauth2ExceptionTranslator;
-import com.fank243.cloud.auth.oauth2.service.MyUserServiceDetail;
+import com.fank243.cloud.auth.oauth2.service.MyUserServiceDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +53,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Resource
     private TokenStore tokenStore;
     @Resource
-    private MyUserServiceDetail myUserServiceDetail;
+    private MyUserServiceDetailImpl myUserServiceDetailImpl;
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -96,7 +96,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
              // 允许请求的方法   
             .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST)    
             // 读取用户的验证信息
-            .userDetailsService(myUserServiceDetail)
+            .userDetailsService(myUserServiceDetailImpl)
             // 自定义jwt payload
             .tokenEnhancer(enhancerChain)
             .exceptionTranslator(myOauth2ExceptionTranslator)
@@ -167,7 +167,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Bean
     DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(myUserServiceDetail);
+        authProvider.setUserDetailsService(myUserServiceDetailImpl);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

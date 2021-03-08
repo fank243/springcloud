@@ -21,6 +21,7 @@ spring:
         file-extension: yml
         extension-configs:
           - data-id: cloud-common.yml # 公共配置
+          - data-id: cloud-common-datasource.yml # 加载数据源
           - data-id: cloud-common-nacos-discovery-metadata.yml # load nacos discovery metadata properties
 
 ---

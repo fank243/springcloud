@@ -17,7 +17,6 @@ spring:
         file-extension: yml
         extension-configs:
           - data-id: cloud-common-nacos-discovery-metadata.yml # load nacos discovery metadata properties
-          - data-id: cloud-common-jpa.yml # load jpa properties
           - data-id: cloud-common-jetcache.yml # load jetcache properties
 
 ---

@@ -38,7 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
             .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+             // 放行获取公钥请求
             .antMatchers("/rsa/publicKey").permitAll()
+             // 其他请求均需要认证
             .anyRequest().authenticated();
         // @formatter:on
     }

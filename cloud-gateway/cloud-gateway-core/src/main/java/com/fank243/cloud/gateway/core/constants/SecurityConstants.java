@@ -20,7 +20,7 @@ public class SecurityConstants {
 
     /** 权限前缀 **/
     public static final String AUTHORITY_PREFIX = "perm:";
-    /** 权限前缀 **/
+    /** 权限声明名称 **/
     public static final String AUTHORITIES_CLAIM_NAME = "authorities";
 
 }
