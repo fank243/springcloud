@@ -1,6 +1,6 @@
 # Spring Cloud
 
-基于 Spring Cloud + Oauth2 + Nacos + JPA + Redis + MySQL5.7 开发
+基于 SpringCloud Alibaba + Oauth2 + Mybatis + Redis + MySQL5.7 开发
 
 相关工具类使用 hutool, 不需要重复造轮子
 
@@ -12,8 +12,7 @@ Spring Security Oauth2 官方SQL脚本存放在 cloud-auth/cloud-auth-oauth2/oau
 
 |*端口*|*模块*|*数据库*|
 |---|---|---|
-|8000|cloud-gateway-admin|fank-cloud|
-|8001|cloud-gateway-app|fank-cloud|
+|8000|cloud-gateway-gateway|fank-cloud|
 |8100|cloud-auth-oauth2|fank-cloud|
 |8200|cloud-service-user|fank-cloud|
 |8201|cloud-service-notice|fank-cloud-notice|
