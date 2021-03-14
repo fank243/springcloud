@@ -6,7 +6,7 @@
     <parent>
         <artifactId>fank243-cloud</artifactId>
         <groupId>com.fank243.cloud</groupId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
     </parent>
     <artifactId>cloud-service</artifactId>
     <name>cloud-service</name>
@@ -38,6 +38,18 @@
                 <artifactId>cloud-service-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <!--Spring Cloud Alibaba sentinel 流量卫兵：限流、熔断降级-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            </dependency>
+            <!--Spring Cloud Alibaba Seata 分布式事务-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

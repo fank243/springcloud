@@ -12,7 +12,7 @@ Spring Security Oauth2 官方SQL脚本存放在 cloud-auth/cloud-auth-oauth2/oau
 
 |*端口*|*模块*|*数据库*|
 |---|---|---|
-|8000|cloud-gateway-gateway|fank-cloud|
+|8000|cloud-gateway|fank-cloud|
 |8100|cloud-auth-oauth2|fank-cloud|
 |8200|cloud-service-user|fank-cloud|
 |8201|cloud-service-notice|fank-cloud-notice|
