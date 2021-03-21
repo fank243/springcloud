@@ -38,18 +38,6 @@
                 <artifactId>cloud-service-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <!--Spring Cloud Alibaba sentinel 流量卫兵：限流、熔断降级-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-            </dependency>
-            <!--Spring Cloud Alibaba Seata 分布式事务-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>

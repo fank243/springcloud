@@ -11,8 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * 用户服务
  * 
- * EnableJpaAuditing 开启JPA审计 {@link com.fank243.cloud.component.common.config.JpaAuditConfiguration}
- * 
  * @author FanWeiJie
  * @date 2020-09-19 11:12:25
  */

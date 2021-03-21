@@ -18,8 +18,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
 @EnableDiscoveryClient
 @SpringBootApplication
-public class GatewayAdminApplication {
+public class GatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(GatewayAdminApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 }

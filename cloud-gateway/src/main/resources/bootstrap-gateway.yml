@@ -9,10 +9,10 @@ spring:
             - Method=POST
           filters:
             - StripPrefix=1
-          #            - name: Hystrix
-          #              args:
-          #                name: fallbackCmd
-          #                fallbackUri: forward:/fallback
+#            - name: Hystrix
+#              args:
+#                name: fallbackCmd
+#                fallbackUri: forward:/fallback
           uri: lb://cloud-auth-oauth2
 
         # 服务:用户
