@@ -2,7 +2,6 @@ package com.fank243.cloud.auth.shiro.configuration;
 
 import cn.hutool.core.util.StrUtil;
 import com.fank243.cloud.auth.shiro.filter.UnAuthenticationFilter;
-import com.fank243.cloud.auth.shiro.filter.UnAuthorizationFilter;
 import com.fank243.cloud.auth.shiro.realm.MyShiroRealm;
 import com.fank243.cloud.auth.shiro.utils.ShiroUtils;
 import com.fank243.cloud.component.common.constant.TimeConstants;
@@ -155,11 +154,10 @@ public class ShiroConfiguration {
         // 登出接口
         filterMap.put("/logout", "anon");
         // 默认拦截
-        filterMap.put("/**", "user");
+        filterMap.put("/**", "authc");
 
         Map<String, Filter> filters = new HashMap<>(1);
         filters.put("authc", new UnAuthenticationFilter());
-        filters.put("perms", new UnAuthorizationFilter());
 
         factoryBean.setFilterChainDefinitionMap(filterMap);
         factoryBean.setFilters(filters);

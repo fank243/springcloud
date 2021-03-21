@@ -10,6 +10,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,9 +57,16 @@ public class LoginController {
     }
 
     /** 未授权测试 **/
-    @RequiresPermissions("auth:test")
-    @GetMapping("/unauthorized/test")
+    @RequiresRoles("admin")
+    @GetMapping("/unauthorized/test/role")
     public ResultInfo unauthorized() {
+        return ResultInfo.ok();
+    }
+
+    /** 未授权测试 **/
+    @RequiresPermissions("auth:test")
+    @GetMapping("/unauthorized/test/perm")
+    public ResultInfo unauthorized2() {
         return ResultInfo.ok();
     }
 
