@@ -19,14 +19,14 @@
     <property name="fileTotalSize" value="1GB"/>
 
     <!--RollingFile 文件名称-->
-    <property name="rollingFileName" value="${logDir}/cloud-gateway.log"/>
+    <property name="rollingFileName" value="${logDir}/cloud-auth.log"/>
     <!--RollingFile framework 文件名称-->
-    <property name="frameworkFileName" value="${logDir}/cloud-gateway-framework.log"/>
+    <property name="frameworkFileName" value="${logDir}/cloud-auth-framework.log"/>
 
     <!--RollingFile 按月归档-->
-    <property name="rollingFilePattern" value="${logDir}/%d{yyyy-MM}/cloud-gateway-%d{yyyy-MM-dd}-%i.log.gz"/>
+    <property name="rollingFilePattern" value="${logDir}/%d{yyyy-MM}/cloud-auth-%d{yyyy-MM-dd}-%i.log.gz"/>
     <!--RollingFile framework 按月归档-->
-    <property name="frameworkFilePattern" value="${logDir}/%d{yyyy-MM}/cloud-gateway-framework-%d{yyyy-MM-dd}-%i.log.gz"/>
+    <property name="frameworkFilePattern" value="${logDir}/%d{yyyy-MM}/cloud-auth-framework-%d{yyyy-MM-dd}-%i.log.gz"/>
 
     <!--控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">

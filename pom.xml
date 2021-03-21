@@ -17,6 +17,8 @@
         <module>cloud-auth</module>
         <!--业务模块-->
         <module>cloud-service</module>
+        <module>cloud-auth/cloud-auth-shiro</module>
+        <module>cloud-auth/cloud-shiro</module>
     </modules>
 
     <properties>

@@ -12,7 +12,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>cloud-auth-oauth2</module>
+        <module>cloud-auth-shiro</module>
+        <module>cloud-shiro</module>
     </modules>
 
     <dependencyManagement>
@@ -20,6 +21,11 @@
             <dependency>
                 <groupId>com.fank243.cloud</groupId>
                 <artifactId>cloud-component-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.cloud</groupId>
+                <artifactId>cloud-shiro</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

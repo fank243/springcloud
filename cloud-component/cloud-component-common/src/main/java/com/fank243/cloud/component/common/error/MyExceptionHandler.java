@@ -28,13 +28,19 @@ public class MyExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultInfo handleBadRequestException(BadRequestException e) {
+        if (log.isErrorEnabled()) {
+            log.error(e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err400(e.getMessage());
     }
 
     /** 401 **/
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResultInfo handleUnauthorizedException(UnauthorizedException e) {
+    public ResultInfo handleUnauthorizedException(HttpServletRequest request, UnauthorizedException e) {
+        if (log.isErrorEnabled()) {
+            log.error("[{}] ; [{}]", request.getRequestURI(), e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err401(e.getMessage());
     }
 
@@ -42,6 +48,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResultInfo handleNoHandlerFoundException(ForbiddenException e) {
+        if (log.isErrorEnabled()) {
+            log.error(e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err403(e.getMessage());
     }
 
@@ -49,6 +58,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResultInfo handleNoHandlerFoundException(NotFoundException e) {
+        if (log.isDebugEnabled()) {
+            log.debug(e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err404(e.getMessage());
     }
 
@@ -57,6 +69,9 @@ public class MyExceptionHandler {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ResultInfo handleMethodNotSupportedException(HttpServletRequest request,
         HttpRequestMethodNotSupportedException e) {
+        if (log.isDebugEnabled()) {
+            log.debug("[{}] ; [{}]", request.getRequestURI(), e.toString());
+        }
         return ResultInfo.err405().error(e.toString()).path(request.getRequestURI());
     }
 
@@ -64,6 +79,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(BizException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultInfo handleBizException(BizException e) {
+        if (log.isDebugEnabled()) {
+            log.debug(e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err500(e.getMessage());
     }
 
@@ -71,6 +89,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(RepeatSubmitException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Object handleRepeatSubmitException(RepeatSubmitException e) {
+        if (log.isDebugEnabled()) {
+            log.debug(e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err400(e.getMessage());
     }
 
@@ -78,6 +99,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultInfo handleBindException(HttpServletRequest request, BindException e) {
+        if (log.isDebugEnabled()) {
+            log.debug("[{}] ; [{}]", request.getRequestURI(), e.toString());
+        }
         return ResultInfo.err400(Objects.requireNonNull(e.getFieldError()).getDefaultMessage())
             .path(request.getRequestURI());
     }
@@ -86,6 +110,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = DuplicateKeyException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultInfo handleDuplicateKeyException(HttpServletRequest request, DuplicateKeyException e) {
+        if (log.isErrorEnabled()) {
+            log.error("[{}] ; [{}]", request.getRequestURI(), e.toString());
+        }
         return ResultInfo.err500("操作数据库异常").path(request.getRequestURI());
     }
 
@@ -93,6 +120,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = BaseException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultInfo handleBaseException(BaseException e) {
+        if (log.isErrorEnabled()) {
+            log.error(e.toString());
+        }
         return e.getResult() != null ? e.getResult() : ResultInfo.err500(e.getMessage());
     }
 
@@ -100,7 +130,10 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultInfo handleException(HttpServletRequest request, Exception e) {
-        return ResultInfo.err500(e.getMessage()).path(request.getRequestURI());
+        if (log.isErrorEnabled()) {
+            log.error("[{}] ; [{}]", request.getRequestURI(), e.toString());
+        }
+        return ResultInfo.err500().path(request.getRequestURI()).error(e.getMessage());
     }
 
 }

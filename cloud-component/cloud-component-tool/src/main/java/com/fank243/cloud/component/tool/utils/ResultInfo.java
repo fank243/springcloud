@@ -108,6 +108,11 @@ public class ResultInfo implements Serializable {
             .payload(payload);
     }
 
+    public static ResultInfo err201() {
+        return new ResultInfo().success(false).message(ResultCode.R201.getMessage())
+            .status(ResultCode.R201.getStatus());
+    }
+
     public static ResultInfo err400() {
         return new ResultInfo().success(false).message(ResultCode.R400.getMessage())
             .status(ResultCode.R401.getStatus());

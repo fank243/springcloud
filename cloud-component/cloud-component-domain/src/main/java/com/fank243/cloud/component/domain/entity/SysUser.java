@@ -28,25 +28,27 @@ public class SysUser extends BaseEntity {
 
     private String email;
 
+    private String salt;
+
     private String password;
 
     private Integer status;
 
     private Integer loginErrCount = 0;
 
-    @JsonFormat(pattern = "yy/MM/dd HH:mm")
+    @JsonFormat(pattern = "yy/MM/dd HH:mm", timezone = "GMT+8")
     private Instant loginLockTime;
 
     private String lastLoginIp;
 
     private String lastLoginIpAddr;
 
-    @JsonFormat(pattern = "yy/MM/dd")
+    @JsonFormat(pattern = "yy/MM/dd HH:mm", timezone = "GMT+8")
     private Instant lastLoginTime;
 
     private Boolean isDeleted;
 
-    @JsonFormat(pattern = "yy/MM/dd")
+    @JsonFormat(pattern = "yy/MM/dd HH:mm", timezone = "GMT+8")
     private Instant deletedTime;
 
 }
