@@ -57,9 +57,9 @@ public class MyExceptionHandler {
     /** 404 > {@link MyErrorController} **/
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResultInfo handleNoHandlerFoundException(NotFoundException e) {
+    public ResultInfo handleNoHandlerFoundException(NotFoundException e, HttpServletRequest request) {
         if (log.isDebugEnabled()) {
-            log.debug(e.toString());
+            log.debug("{},{}", e.toString(), request.getRequestURI());
         }
         return e.getResult() != null ? e.getResult() : ResultInfo.err404(e.getMessage());
     }
@@ -130,6 +130,7 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultInfo handleException(HttpServletRequest request, Exception e) {
+        e.printStackTrace();
         if (log.isErrorEnabled()) {
             log.error("[{}] ; [{}]", request.getRequestURI(), e.toString());
         }

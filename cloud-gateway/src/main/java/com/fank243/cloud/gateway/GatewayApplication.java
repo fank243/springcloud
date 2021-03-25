@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -15,7 +16,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @MapperScan(basePackages = {"com.fank243.cloud.gateway"})
 @ConfigurationPropertiesScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
-@ComponentScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
+@ComponentScan(
+    basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**", "com.fank243.cloud.feign.*"})
+@EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
 public class GatewayApplication {

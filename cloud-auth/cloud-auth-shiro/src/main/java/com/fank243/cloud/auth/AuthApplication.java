@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @date 2021-03-21 18:38:22
  */
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.fank243.cloud.auth", "com.fank243.cloud.component"})
+@ComponentScan(basePackages = {"com.fank243.cloud.auth", "com.fank243.cloud.component", "cn.hutool"})
 @EnableDiscoveryClient
 @SpringBootApplication
 public class AuthApplication {

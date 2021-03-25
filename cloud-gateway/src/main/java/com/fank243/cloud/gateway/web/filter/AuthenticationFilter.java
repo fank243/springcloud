@@ -1,11 +1,11 @@
 package com.fank243.cloud.gateway.web.filter;
 
-import cn.hutool.crypto.digest.DigestUtil;
-import com.fank243.cloud.gateway.constants.RedisConstants;
-import com.fank243.cloud.gateway.service.RedisService;
+import com.fank243.cloud.component.tool.enums.ResultCode;
 import com.fank243.cloud.component.tool.utils.ResultInfo;
+import com.fank243.cloud.feign.auth.AuthFeignClient;
 import com.fank243.cloud.gateway.utils.ResponseUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,10 +31,13 @@ import java.util.List;
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     /** 放行白名单 **/
-    private static final List<String> WHITE_URI = Collections.singletonList("/api/oauth/**");
+    private static final List<String> WHITE_URI = Arrays.asList("/api/auth/login", "/api/auth/logout");
 
-    @Resource
-    private RedisService redisService;
+    /** 请求头认证参数 **/
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+
+    @Autowired
+    private AuthFeignClient authFeignClient;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -47,18 +49,18 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String token = request.getHeaders().getFirst("Authorization");
+        String token = request.getHeaders().getFirst(AUTHORIZATION_HEADER);
         if (StringUtils.isBlank(token)) {
             return ResponseUtils.printJson(response, HttpStatus.UNAUTHORIZED, ResultInfo.err401());
         }
-        // redis 校验
-        Object obj = redisService.get(RedisConstants.SYS_CURR_USER);
-        if (obj == null) {
-            return ResponseUtils.printJson(response, HttpStatus.FORBIDDEN, ResultInfo.err403());
-        }
-        // 匹配
-        if (!obj.toString().equalsIgnoreCase(DigestUtil.md5Hex(token))) {
-            return ResponseUtils.printJson(response, HttpStatus.FORBIDDEN, ResultInfo.err403());
+
+        // 校验当前登录用户是否具有访问此资源的权限
+        ResultInfo result = authFeignClient.hasRight(request.getURI().getPath());
+        if (!result.isSuccess()) {
+            if (ResultCode.R403.getStatus() == result.getStatus()) {
+                return ResponseUtils.printJson(response, HttpStatus.FORBIDDEN, result);
+            }
+            return ResponseUtils.printJson(response, HttpStatus.OK, result);
         }
 
         return chain.filter(exchange);

@@ -80,6 +80,7 @@
     <Logger name="org.hibernate" level="INFO"/>
     <Logger name="org.mybatis" level="INFO"/>
     <Logger name="io.netty" level="INFO"/>
+    <Logger name="io.lettuce" level="INFO"/>
     <Logger name="reactor.netty" level="INFO"/>
     <Logger name="com.alibaba.nacos" level="INFO"/>
     <Logger name="com.alibaba.cloud" level="INFO"/>

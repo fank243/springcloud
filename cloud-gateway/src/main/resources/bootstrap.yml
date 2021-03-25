@@ -30,6 +30,21 @@ management:
       exposure:
         include: gateway
 
+# open feign 配置
+feign:
+  hystrix:
+    enabled: true # 开启Fallback
+  client:
+    config:
+      defalut:
+        connect-timeout: 20000 # 超时设置，单位毫秒
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000 # 超时设置，单位毫秒
+
 ---
 spring:
   profiles: dev

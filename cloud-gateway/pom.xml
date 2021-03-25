@@ -5,7 +5,7 @@
     <parent>
         <artifactId>fank243-cloud</artifactId>
         <groupId>com.fank243.cloud</groupId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cloud-gateway</artifactId>
@@ -38,7 +38,12 @@
         <dependency>
             <groupId>com.fank243.cloud</groupId>
             <artifactId>cloud-component-domain</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.cloud</groupId>
+            <artifactId>cloud-feign</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!--Spring Cloud Gateway -->

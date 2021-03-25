@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisService {
     @Resource
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     /** Set redis Key expire time */
     private void setExpireTime(String key, long time) {
@@ -33,9 +33,9 @@ public class RedisService {
     }
 
     /** Set Key **/
-    public boolean set(String key, String value, long expireTime) {
+    public boolean set(String key, Object value, long expireTime) {
         try {
-            if (StringUtils.isBlank(key) || StringUtils.isBlank(value)) {
+            if (StringUtils.isBlank(key) || value == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("the redis key or value must be not null or empty:{},{}", key, value);
                 }

@@ -1,0 +1,26 @@
+mybatis-plus:
+  # xml 扫描路径
+  mapper-locations: classpath:/mapper/*Mapper.xml
+
+  # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名(即 XML 中调用的时候不用包含包名)
+  typeAliasesPackage: com.fank243.cloud.component.domain.entity
+
+  # 枚举类 扫描路径，如果配置了该属性，会将路径下的枚举类进行注入，让实体类字段能够简单快捷的使用枚举属性
+  typeEnumsPackage: com.fank243.cloud.component.domain.enums
+
+  # 全局配置
+  global-config:
+    # 数据库相关配置
+    db-config:
+      # 全局默认主键类型，NONE：随机ID，默认值：ASSIGN_ID(雪花算法)
+      id-type: NONE
+      table-prefix: tb # 表名前缀
+      logic-delete-field: is_deleted # 逻辑删除字段名称
+      insert-strategy: not_empty # 字段验证策略之 insert,在 insert 的时候的字段验证策略
+      update-strategy: not_empty # 字段验证策略之 update,在 update 的时候的字段验证策略
+
+  # MyBatis 原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    # 开启Mybatis二级缓存，默认为 true
+    cache-enabled: false

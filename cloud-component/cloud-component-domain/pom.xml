@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cloud-component</artifactId>
         <groupId>com.fank243.cloud</groupId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cloud-component-domain</artifactId>
@@ -36,16 +36,14 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!--mybatis-->
+        <!-- Mybatis 插件
+            https://mp.baomidou.com/guide
+        -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>

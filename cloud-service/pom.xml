@@ -6,7 +6,7 @@
     <parent>
         <artifactId>fank243-cloud</artifactId>
         <groupId>com.fank243.cloud</groupId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
     </parent>
     <artifactId>cloud-service</artifactId>
     <name>cloud-service</name>

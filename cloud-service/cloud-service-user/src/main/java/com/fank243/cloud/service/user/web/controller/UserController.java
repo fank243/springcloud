@@ -4,7 +4,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.fank243.cloud.component.common.utils.WebUtils;
 import com.fank243.cloud.component.domain.dto.CurrUser;
 import com.fank243.cloud.component.domain.dto.UserFormDTO;
-import com.fank243.cloud.component.domain.entity.SysUser;
+import com.fank243.cloud.component.domain.entity.system.SysUser;
 import com.fank243.cloud.component.tool.utils.ResultInfo;
 import com.fank243.cloud.service.user.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;

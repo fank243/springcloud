@@ -16,4 +16,7 @@ public class Constants {
 
     /** 默认头像 **/
     public static final String DEFAULT_PHOTO = "";
+
+    /** JWT Token 请求头名称 **/
+    public static final String TOKEN_NAME = "Authorization";
 }

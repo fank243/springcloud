@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fank243.cloud</groupId>
     <artifactId>fank243-cloud</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -17,8 +17,8 @@
         <module>cloud-auth</module>
         <!--业务模块-->
         <module>cloud-service</module>
-        <module>cloud-auth/cloud-auth-shiro</module>
-        <module>cloud-auth/cloud-shiro</module>
+        <module>cloud-generator</module>
+        <module>cloud-feign</module>
     </modules>
 
     <properties>

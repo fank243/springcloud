@@ -12,9 +12,14 @@ import lombok.Getter;
 public enum PermissionType {
 
     /** 按钮 **/
-    BUTTON("按钮"),
+    DIR("按钮"),
 
-    MENU("菜单");
+    MENU("菜单"),
+
+    /** 接口 **/
+    BUTTON("接口")
+
+    ;
 
     PermissionType(String desc) {
         this.desc = desc;

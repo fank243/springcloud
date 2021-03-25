@@ -1,7 +1,7 @@
 package com.fank243.cloud.service.user.service;
 
 import com.fank243.cloud.component.tool.utils.ResultInfo;
-import com.fank243.cloud.component.domain.entity.SysUser;
+import com.fank243.cloud.component.domain.entity.system.SysUser;
 import com.fank243.cloud.service.user.mapper.SysUserMapper;
 import org.springframework.stereotype.Service;
 

@@ -12,4 +12,7 @@ public class RedisConstants {
 
     /** App登录管理员 **/
     public static final String APP_CURR_USER = "app::curr-user-";
+
+    /** JWT Token 过期设置 **/
+    public static final String JWT_TOKEN_PRE = "jwt::token-expire-";
 }

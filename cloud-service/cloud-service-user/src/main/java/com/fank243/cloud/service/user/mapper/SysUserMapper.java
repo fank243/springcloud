@@ -1,6 +1,6 @@
 package com.fank243.cloud.service.user.mapper;
 
-import com.fank243.cloud.component.domain.entity.SysUser;
+import com.fank243.cloud.component.domain.entity.system.SysUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 

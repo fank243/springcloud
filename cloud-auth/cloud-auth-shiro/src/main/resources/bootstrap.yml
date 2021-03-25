@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: cloud-auth-shiro
+    name: cloud-auth
   profiles:
     active: dev
   main:
@@ -18,6 +18,7 @@ spring:
         file-extension: properties
         extension-configs:
           - data-id: cloud-common.properties # 加载公共配置
+          - data-id: cloud-common-mybatis-plus.properties # 加载Mybatis Plus 配置
           - data-id: cloud-common-redis.properties # 加载Redis配置
           - data-id: cloud-common-nacos.properties # 加载nacos心跳检测配置
           - data-id: cloud-common-sentinel.properties # 加载sentinel配置
