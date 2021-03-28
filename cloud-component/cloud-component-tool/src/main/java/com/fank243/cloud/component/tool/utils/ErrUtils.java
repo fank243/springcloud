@@ -1,7 +1,6 @@
 package com.fank243.cloud.component.tool.utils;
 
 import cn.hutool.http.HttpStatus;
-import com.fank243.cloud.component.tool.exception.*;
 import com.fank243.cloud.component.tool.enums.ResultCode;
 import com.fank243.cloud.component.tool.exception.*;
 
@@ -44,6 +43,48 @@ public class ErrUtils {
             default:
         }
         return ResultCode.R500.getMessage();
+    }
+
+    /**
+     * 根据状态码获取异常数据
+     *
+     * @param status HTTP STATUS
+     * @param error exception stack
+     * @return 友好提示
+     */
+    public static BaseException getResult(int status, String error) {
+        ResultInfo result = new ResultInfo();
+        result.setError(error);
+        switch (status) {
+            // 400
+            case HttpStatus.HTTP_BAD_REQUEST:
+                result = ResultInfo.err400();
+                return new BadRequestException(result);
+
+            // 401
+            case HttpStatus.HTTP_UNAUTHORIZED:
+                result = ResultInfo.err401();
+                return new UnauthorizedException(result);
+
+            // 403
+            case HttpStatus.HTTP_FORBIDDEN:
+                result = ResultInfo.err403();
+                return new ForbiddenException(result);
+
+            // 404
+            case HttpStatus.HTTP_NOT_FOUND:
+                result = ResultInfo.err404();
+                return new NotFoundException(result);
+
+            // 405
+            case HttpStatus.HTTP_BAD_METHOD:
+                result = ResultInfo.err405();
+                return new MethodNotAllowException(result);
+
+            default:
+                result = ResultInfo.err500();
+                return new ServerErrorException(result);
+        }
     }
 
     /**

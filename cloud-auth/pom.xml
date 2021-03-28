@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>cloud-auth-shiro</module>
+        <module>cloud-shiro-web</module>
         <module>cloud-shiro</module>
     </modules>
 

@@ -18,7 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ConfigurationPropertiesScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
 @ComponentScan(
     basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**", "com.fank243.cloud.feign.*"})
-@EnableFeignClients
+@EnableFeignClients("com.fank243.cloud.feign.*")
 @EnableDiscoveryClient
 @SpringBootApplication
 public class GatewayApplication {

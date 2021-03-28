@@ -30,4 +30,10 @@ public class AuthController {
         subject.isPermitted();
         return ResultInfo.ok();
     }
+
+    /** 获取登录用户信息 **/
+    @PostMapping("/getUserInfo")
+    public ResultInfo getUserInfo() {
+        return ResultInfo.ok().payload(ShiroUtils.getUserInfo());
+    }
 }

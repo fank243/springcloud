@@ -4,15 +4,14 @@ import com.fank243.cloud.auth.shiro.service.LoginService;
 import com.fank243.cloud.auth.shiro.token.SysShiroForm;
 import com.fank243.cloud.auth.shiro.utils.JWTUtil;
 import com.fank243.cloud.auth.shiro.utils.ShiroUtils;
-import com.fank243.cloud.component.common.constant.Constants;
-import com.fank243.cloud.component.common.constant.RedisConstants;
 import com.fank243.cloud.component.common.service.RedisService;
 import com.fank243.cloud.component.domain.entity.system.SysUser;
+import com.fank243.cloud.component.tool.constant.Constants;
+import com.fank243.cloud.component.tool.constant.RedisConstants;
 import com.fank243.cloud.component.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +59,7 @@ public class LoginController {
 
         return ResultInfo.ok().message("登录成功");
     }
+
     /** 登出接口 **/
     @PostMapping("/logout")
     public ResultInfo logout() {

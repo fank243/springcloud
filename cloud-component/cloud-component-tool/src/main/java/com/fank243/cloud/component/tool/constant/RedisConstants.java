@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.common.constant;
+package com.fank243.cloud.component.tool.constant;
 
 /**
  * Redis Constant

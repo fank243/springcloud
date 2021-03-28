@@ -35,6 +35,11 @@
                 <artifactId>cloud-component-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fank243.cloud</groupId>
+                <artifactId>cloud-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -7,7 +7,7 @@ spring:
   profiles:
     active: dev
   main:
-      allow-bean-definition-overriding: true # 允许重名bean
+    allow-bean-definition-overriding: true # 允许重名bean
   cloud:
     nacos:
       config:
@@ -34,16 +34,12 @@ management:
 feign:
   hystrix:
     enabled: true # 开启Fallback
-  client:
-    config:
-      defalut:
-        connect-timeout: 20000 # 超时设置，单位毫秒
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 20000 # 超时设置，单位毫秒
+
+ribbon:
+  ConnectTimeout: 200000 # 服务建立请求连接超时时间，单位：ms
+  ReadTimeout: 200000 # 网络连接建立成功后，等待服务响应数据超时时间，单位：ms
+  okhttp:
+    enabled: true # 启用 okhttp
 
 ---
 spring:

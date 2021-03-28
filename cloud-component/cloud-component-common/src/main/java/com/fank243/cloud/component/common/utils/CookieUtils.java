@@ -1,6 +1,6 @@
 package com.fank243.cloud.component.common.utils;
 
-import com.fank243.cloud.component.common.constant.TimeConstants;
+import com.fank243.cloud.component.tool.constant.TimeConstants;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

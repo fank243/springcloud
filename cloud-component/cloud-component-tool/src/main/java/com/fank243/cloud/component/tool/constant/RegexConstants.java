@@ -1,4 +1,4 @@
-package com.fank243.cloud.component.common.constant;
+package com.fank243.cloud.component.tool.constant;
 
 /**
  * 正则表达式常量池

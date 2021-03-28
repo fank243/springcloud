@@ -4,15 +4,15 @@ import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fank243.cloud.auth.shiro.token.JWTShiroToken;
 import com.fank243.cloud.auth.shiro.utils.JWTUtil;
-import com.fank243.cloud.component.common.constant.Constants;
-import com.fank243.cloud.component.common.constant.RedisConstants;
 import com.fank243.cloud.component.common.service.RedisService;
 import com.fank243.cloud.component.common.utils.WebUtils;
+import com.fank243.cloud.component.tool.constant.Constants;
+import com.fank243.cloud.component.tool.constant.RedisConstants;
 import com.fank243.cloud.component.tool.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +47,7 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
     private RedisService redisService;
 
     /**
-     * 拦截器的前置方法，此处进行跨域处理
+     * 1. 登录验证第一步，前置拦截
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -63,7 +63,7 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
 
         // 如果不带token，不去验证shiro
         if (!isLoginAttempt(request, response)) {
-            WebUtils.printJson(response, ResultInfo.fail("请携带认证参数"));
+            WebUtils.printJson(response, ResultInfo.fail("非法请求"));
             return false;
         }
         return super.preHandle(request, response);
@@ -71,7 +71,7 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 此方法用来验证是否客户端是否携带了请求头参数Authorization，如果没有携带则不进入Shiro认证
+     * 2. 登录第二步，验证客户端请求头参数“Authorization”是否存在，不存在则不进入shiro验证流程，直接返回错误信息
      */
     @Override
     protected boolean isLoginAttempt(String authzHeader) {
@@ -80,28 +80,6 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
             return false;
         }
         return StrUtil.isNotBlank(request.getHeader(AUTHORIZATION_HEADER));
-    }
-
-    /**
-     * 该方法从字面意思理解，即是否允许放行请求，继续进入后面的拦截器处理
-     * 
-     * 因此这里面只需要判断用户是否已经登录认证了，如果认证了则放行，否则不放行
-     * 
-     * 如果该方法返回false，则会进入到{@link JWTShiroFilter#onAccessDenied(ServletRequest, ServletResponse)} 方法中
-     * 
-     * 当用户未登录的时候，则需要在onAccessDenied()方法中返回未登录的JSON串
-     * 
-     */
-    @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        try {
-            return executeLogin(request, response);
-        } catch (Exception e) {
-            log.error("isAccessAllowed()执行异常：{}", e.toString());
-            WebUtils.printJson(response, ResultInfo.fail("登录失败"));
-            return false;
-        }
-
     }
 
     /**
@@ -117,8 +95,27 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 登录验证通过后对 JWTToken 进行验证
-     * {@link AuthenticatingFilter#executeLogin(javax.servlet.ServletRequest, javax.servlet.ServletResponse)}方法验证通过后会进入此方法
+     * 3. 登录验证第三步，调用登录方法，执行登录认证流程
+     * 
+     * 3.1 如果登录认证失败，则调用
+     * {@link JWTShiroFilter#onLoginFailure(AuthenticationToken, AuthenticationException, ServletRequest, ServletResponse)}
+     * }
+     *
+     * 3.2 如果登录认证成功，则调用
+     * {@link JWTShiroFilter#onLoginSuccess(AuthenticationToken, Subject, ServletRequest, ServletResponse)}}
+     */
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        try {
+            return executeLogin(request, response);
+        } catch (Exception e) {
+            log.error("isAccessAllowed()执行异常：{}", e.toString());
+        }
+        return false;
+    }
+
+    /**
+     * 3.1 登录认证成功后调用，在此方法里面执行我们自己的JWT Token认证流程及刷新Token流程
      */
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
@@ -148,7 +145,7 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
         } catch (Exception e) {
             log.error("onLoginSuccess()执行异常：{}", e.toString());
             if (e instanceof TokenExpiredException) {
-                log.error("JWT Token已过期，开始签发新Token并刷新有效时长：{}", e.toString());
+                log.error("用户凭证已过期，开始进入签发新凭证流程：{}", e.toString());
                 // Token 过期刷新Token
                 return refreshToken(request, response);
             }
@@ -158,13 +155,26 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 登录验证通过后对 JWTToken 进行验证失败后，执行此方法
-     * {@link JWTShiroFilter#onLoginSuccess(AuthenticationToken, Subject, ServletRequest, ServletResponse)}方法验证失败后会进入此方法
+     * 3.2 登录认证失败后调用
+     *
+     * 3.2.1 如果返回true，则不继续往下执行，即不调用 {@link JWTShiroFilter#onAccessDenied(ServletRequest, ServletResponse)}
+     *
+     * 3.2.2 如果返回false，则调用 {@link JWTShiroFilter#onAccessDenied(ServletRequest, ServletResponse)}
+     */
+    @Override
+    protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request,
+        ServletResponse response) {
+        WebUtils.printJson(response, ResultInfo.fail("登录失败，请核实登录信息"));
+        return true;
+    }
+
+    /**
+     * 4. 当登录认证失败接口调用后，执行此方法
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
-        this.sendChallenge(request, response);
-        WebUtils.printJson(response, ResultInfo.fail("认证秘钥校验不通过或者秘钥已过期"));
+        // 发送响应信息
+        WebUtils.printJson(response, ResultInfo.err201());
         return false;
     }
 
@@ -179,6 +189,7 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
 
         // 如何redis中不存在，则不刷新
         if (!redisService.hasKey(RedisConstants.JWT_TOKEN_PRE + username)) {
+            log.error("刷新用户凭证失败，Redis中刷新凭证KEY已丢失");
             return false;
         }
 
@@ -203,6 +214,7 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
             return true;
 
         }
+        log.error("刷新用户凭证失败，与Redis刷新凭证时间不一致");
         return false;
     }
 

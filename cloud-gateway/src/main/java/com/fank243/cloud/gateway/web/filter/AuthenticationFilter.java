@@ -49,16 +49,29 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
+        // 获取请求头认证参数
         String token = request.getHeaders().getFirst(AUTHORIZATION_HEADER);
         if (StringUtils.isBlank(token)) {
             return ResponseUtils.printJson(response, HttpStatus.UNAUTHORIZED, ResultInfo.err401());
         }
 
         // 校验当前登录用户是否具有访问此资源的权限
-        ResultInfo result = authFeignClient.hasRight(request.getURI().getPath());
+        ResultInfo result = authFeignClient.hasRight(token, request.getURI().getPath());
         if (!result.isSuccess()) {
+            if (ResultCode.R400.getStatus() == result.getStatus()) {
+                return ResponseUtils.printJson(response, HttpStatus.BAD_REQUEST, result);
+            }
+            if (ResultCode.R401.getStatus() == result.getStatus()) {
+                return ResponseUtils.printJson(response, HttpStatus.UNAUTHORIZED, result);
+            }
             if (ResultCode.R403.getStatus() == result.getStatus()) {
                 return ResponseUtils.printJson(response, HttpStatus.FORBIDDEN, result);
+            }
+            if (ResultCode.R404.getStatus() == result.getStatus()) {
+                return ResponseUtils.printJson(response, HttpStatus.NOT_FOUND, result);
+            }
+            if (ResultCode.R405.getStatus() == result.getStatus()) {
+                return ResponseUtils.printJson(response, HttpStatus.METHOD_NOT_ALLOWED, result);
             }
             return ResponseUtils.printJson(response, HttpStatus.OK, result);
         }
