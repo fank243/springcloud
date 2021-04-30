@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 路由类配置
+ * 路由配置
+ * 
+ * @author FanWeiJie
+ * @date 2021-04-04 20:57:35
  */
 @Configuration
 public class GatewayRouteConfiguration {

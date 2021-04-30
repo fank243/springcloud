@@ -1,7 +1,7 @@
 package com.fank243.cloud.gateway.web.filter;
 
-import com.fank243.cloud.component.tool.enums.ResultCode;
-import com.fank243.cloud.component.tool.utils.ResultInfo;
+import com.fank243.cloud.common.tool.enums.ResultCode;
+import com.fank243.cloud.common.tool.utils.ResultInfo;
 import com.fank243.cloud.feign.auth.AuthFeignClient;
 import com.fank243.cloud.gateway.utils.ResponseUtils;
 import org.apache.commons.lang3.StringUtils;

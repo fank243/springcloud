@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-component-domain</artifactId>
+            <artifactId>cloud-domain</artifactId>
             <version>0.2.0</version>
         </dependency>
 

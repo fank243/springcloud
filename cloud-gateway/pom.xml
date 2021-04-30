@@ -37,11 +37,6 @@
 
         <dependency>
             <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-component-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.cloud</groupId>
             <artifactId>cloud-feign</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -88,24 +83,6 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
-
-        <!--&lt;!&ndash;spring  security&ndash;&gt;
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-jose</artifactId>
-        </dependency>-->
     </dependencies>
 
     <build>

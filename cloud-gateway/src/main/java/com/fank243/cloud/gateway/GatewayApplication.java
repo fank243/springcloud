@@ -1,6 +1,5 @@
 package com.fank243.cloud.gateway;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -14,10 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @author FanWeiJie
  * @date 2020-09-09 10:04:09
  */
-@MapperScan(basePackages = {"com.fank243.cloud.gateway"})
-@ConfigurationPropertiesScan(basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**"})
-@ComponentScan(
-    basePackages = {"com.fank243.cloud.gateway.*.**", "com.fank243.cloud.component.*.**", "com.fank243.cloud.feign.*"})
+@ConfigurationPropertiesScan(basePackages = {"com.fank243.cloud.*.**"})
+@ComponentScan(basePackages = {"com.fank243.cloud.*.**"})
 @EnableFeignClients("com.fank243.cloud.feign.*")
 @EnableDiscoveryClient
 @SpringBootApplication

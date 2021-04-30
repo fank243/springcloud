@@ -10,7 +10,7 @@
 
     <modules>
         <!--其他组件-->
-        <module>cloud-component</module>
+        <module>cloud-common</module>
         <!--Api 网关模块-->
         <module>cloud-gateway</module>
         <!--认证模块-->

@@ -1,7 +1,7 @@
 package com.fank243.cloud.feign.configuration;
 
-import com.fank243.cloud.component.tool.exception.BaseException;
-import com.fank243.cloud.component.tool.utils.ResultInfo;
+import com.fank243.cloud.common.tool.exception.BaseException;
+import com.fank243.cloud.common.tool.utils.ResultInfo;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;

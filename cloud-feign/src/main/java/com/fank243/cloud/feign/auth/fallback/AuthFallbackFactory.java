@@ -1,8 +1,8 @@
 package com.fank243.cloud.feign.auth.fallback;
 
-import com.fank243.cloud.component.tool.exception.BaseException;
-import com.fank243.cloud.component.tool.utils.ErrUtils;
-import com.fank243.cloud.component.tool.utils.ResultInfo;
+import com.fank243.cloud.common.tool.exception.BaseException;
+import com.fank243.cloud.common.tool.utils.ErrUtils;
+import com.fank243.cloud.common.tool.utils.ResultInfo;
 import com.fank243.cloud.feign.auth.AuthFeignClient;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.cloud</groupId>
-            <artifactId>cloud-component-common</artifactId>
+            <artifactId>cloud-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

@@ -1,6 +1,6 @@
 package com.fank243.cloud.gateway.utils;
 
-import com.fank243.cloud.component.tool.utils.ResultInfo;
+import com.fank243.cloud.common.tool.utils.ResultInfo;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;

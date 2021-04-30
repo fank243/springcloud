@@ -1,7 +1,7 @@
 package com.fank243.cloud.feign.auth;
 
-import com.fank243.cloud.component.tool.constant.Constants;
-import com.fank243.cloud.component.tool.utils.ResultInfo;
+import com.fank243.cloud.common.tool.constant.Constants;
+import com.fank243.cloud.common.tool.utils.ResultInfo;
 import com.fank243.cloud.feign.auth.fallback.AuthFallbackFactory;
 import com.fank243.cloud.feign.configuration.FeignConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
