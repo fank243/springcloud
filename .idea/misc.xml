@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-component/cloud-common/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-component/cloud-tool/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-component/cloud-domain/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-domain/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/cloud-auth/cloud-auth-oauth2/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-auth/cloud-shiro-web/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-auth/cloud-shiro/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>

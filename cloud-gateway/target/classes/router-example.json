@@ -1,0 +1,46 @@
+[
+  {
+    "id": "cloud-auth-oauth2",
+    "uri": "lb://cloud-auth-oauth2",
+    "order": 0,
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/api/oauth/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "parts": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "cloud-service-user",
+    "uri": "lb://cloud-service-user",
+    "order": 1,
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/api/user/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "parts": 1
+        }
+      }
+    ]
+  }
+]
+
+// http://localhost:8000/actuator/gateway/routes

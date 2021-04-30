@@ -1,0 +1,8 @@
+com\fank243\cloud\service\user\domain\entity\UserInfo.class
+com\fank243\cloud\service\user\service\SysUserService.class
+com\fank243\cloud\service\user\ServiceUserApplication.class
+com\fank243\cloud\service\user\mapper\SysUserMapper.class
+com\fank243\cloud\service\user\web\controller\UserController.class
+com\fank243\cloud\service\user\domain\entity\SysDictData.class
+com\fank243\cloud\service\user\domain\entity\SysDictType.class
+com\fank243\cloud\service\user\enums\Gender.class

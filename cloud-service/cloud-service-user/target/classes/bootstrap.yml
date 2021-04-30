@@ -1,0 +1,51 @@
+server:
+  port: 8200
+
+spring:
+  profiles:
+    active: dev # 启动程序时通过指定环境实现：java -jar -Dspring.profiles.active=prod app.jar
+  application:
+    name: cloud-service-user
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        prefix: ${spring.application.name}
+        file-extension: properties
+        extension-configs:
+          - data-id: cloud-common.properties # 加载公共配置
+          - data-id: cloud-common-datasource.properties # 加载数据源
+          - data-id: cloud-common-nacos.properties # load nacos metadata properties
+          - data-id: cloud-common-sentinel.properties # load sentinel properties
+          - data-id: cloud-common-jetcache.properties # load jetcache properties
+
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        # nacos web端地址，需要携带端口，多个使用`,`分割
+        server-addr: localhost
+        namespace: f1aa413a-d6d6-449f-82b2-315ccb7302a4
+---
+spring:
+  profiles: test
+  cloud:
+    nacos:
+      discovery:
+        # nacos web端地址，需要携带端口，多个使用`,`分割
+        server-addr: 192.168.8.119
+        namespace: 9edb3cd4-4273-444d-8d05-870a1d3c9df3
+---
+spring:
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        # nacos web端地址，需要携带端口，多个使用`,`分割
+        server-addr: 192.168.8.119
+        namespace: 9edb3cd4-4273-444d-8d05-870a1d3c9df3

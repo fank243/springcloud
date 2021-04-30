@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cloud-service-user" />
+        <module name="cloud-service-notice" />
+        <module name="cloud-tool" />
+        <module name="cloud-auth" />
+        <module name="cloud-gateway" />
+        <module name="cloud-feign" />
+        <module name="cloud-domain" />
+        <module name="cloud-core" />
+        <module name="cloud-service-core" />
+        <module name="cloud-generator" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="auth-service" target="8" />
+      <module name="auth-web" target="8" />
+      <module name="cloud-app" target="8" />
+      <module name="cloud-auth" target="1.8" />
+      <module name="cloud-auth-oauth2" target="1.8" />
+      <module name="cloud-client" target="8" />
+      <module name="cloud-common" target="1.8" />
+      <module name="cloud-controller" target="8" />
+      <module name="cloud-core" target="1.8" />
+      <module name="cloud-domain" target="1.8" />
+      <module name="cloud-feign" target="8" />
+      <module name="cloud-gateway" target="1.8" />
+      <module name="cloud-generator" target="8" />
+      <module name="cloud-infrastructure" target="8" />
+      <module name="cloud-service" target="1.8" />
+      <module name="cloud-service-core" target="1.8" />
+      <module name="cloud-service-notice" target="1.8" />
+      <module name="cloud-service-user" target="1.8" />
+      <module name="cloud-shiro" target="8" />
+      <module name="cloud-shiro-web" target="8" />
+      <module name="cloud-tool" target="1.8" />
+      <module name="fank243-cloud" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
