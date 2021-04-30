@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+　　 scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+ -->
+<configuration scan="false" scanPeriod="30 seconds" debug="false">
+    <!--日志文件存储路径-->
+    <property name="logDir" value="${user.home}/logs/fank243-cloud"/>
+    <!--控制台输出格式-->
+    <property name="consolePatternLayout" value="%red(%d{HH:mm:ss}) [%X{sessionId}] [%X{requestId}] %boldRed([%t]) %boldBlue([%c])-%boldGreen([%p]) %cyan(%m%n)"/>
+
+    <!--RollingFile 输出格式-->
+    <property name="filePatternLayout" value="%d{yyyy/MM/dd HH:mm:ss} [%X{sessionId}] [%X{requestId}] [%t]  [%c]-[%p] %m%n"/>
+    <!--RollingFile 单文件分隔大小-->
+    <property name="fileSize" value="50MB"/>
+    <!--RollingFile 存放数量，默认7个-->
+    <property name="fileMax" value="30"/>
+    <!--RollingFile 文件存储限值,超出后从前往后删除-->
+    <property name="fileTotalSize" value="1GB"/>
+
+    <!--RollingFile 文件名称-->
+    <property name="rollingFileName" value="${logDir}/cloud-gateway.log"/>
+    <!--RollingFile framework 文件名称-->
+    <property name="frameworkFileName" value="${logDir}/cloud-gateway-framework.log"/>
+
+    <!--RollingFile 按月归档-->
+    <property name="rollingFilePattern" value="${logDir}/%d{yyyy-MM}/cloud-gateway-%d{yyyy-MM-dd}-%i.log.gz"/>
+    <!--RollingFile framework 按月归档-->
+    <property name="frameworkFilePattern" value="${logDir}/%d{yyyy-MM}/cloud-gateway-framework-%d{yyyy-MM-dd}-%i.log.gz"/>
+
+    <!--控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${consolePatternLayout}</pattern>
+        </encoder>
+    </appender>
+
+    <!--RollingFile auth-->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${rollingFilePattern}</fileNamePattern>
+            <!--每天产生至少产生一个归档，或者文件大小超过设定值产生多个归档-->
+            <maxFileSize>${fileSize}</maxFileSize>
+            <!--同类型日志文件同一文件夹下可以存放数量，默认为7个-->
+            <maxHistory>${fileMax}</maxHistory>
+            <totalSizeCap>${fileTotalSize}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${filePatternLayout}</pattern>
+        </encoder>
+    </appender>
+
+    <!--RollingFile framework-->
+    <appender name="frameworkFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${frameworkFilePattern}</fileNamePattern>
+            <!--每天产生至少产生一个归档，或者文件大小超过设定值产生多个归档-->
+            <maxFileSize>${fileSize}</maxFileSize>
+            <!--同类型日志文件同一文件夹下可以存放数量，默认为7个-->
+            <maxHistory>${fileMax}</maxHistory>
+            <totalSizeCap>${fileTotalSize}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${filePatternLayout}</pattern>
+        </encoder>
+    </appender>
+
+    <!--定义logger,只有定义了logger并引入的appender,appender才会生效 -->
+    <!-- 将项目产生的日志文件全部写入到单独的文件中 -->
+    <Logger name="com.fank243.cloud" level="DEBUG">
+        <appender-ref ref="rollingFile"/>
+    </Logger>
+
+    <Logger name="org.springframework" level="INFO"/>
+    <Logger name="org.hibernate" level="INFO"/>
+    <Logger name="org.mybatis" level="INFO"/>
+    <Logger name="io.netty" level="INFO"/>
+    <Logger name="io.lettuce" level="INFO"/>
+    <Logger name="reactor.netty" level="INFO"/>
+    <Logger name="com.alibaba.nacos" level="INFO"/>
+    <Logger name="com.alibaba.cloud" level="INFO"/>
+
+    <!--默认日志级别-->
+    <Root level="DEBUG">
+        <appender-ref ref="console"/>
+        <appender-ref ref="frameworkFile"/>
+    </Root>
+
+</configuration>

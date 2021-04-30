@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        # 认证中心
+        - id: cloud-auth
+          uri: lb://cloud-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            # 验证码处理
+            - CacheRequestFilter
+            - ValidateCodeFilter
+            - StripPrefix=1
+        # 代码生成
+        - id: cloud-gen
+          uri: lb://cloud-gen
+          predicates:
+            - Path=/api/code/**
+          filters:
+            - StripPrefix=1
+        # 定时任务
+        - id: cloud-job
+          uri: lb://cloud-job
+          predicates:
+            - Path=/api/schedule/**
+          filters:
+            - StripPrefix=1
+        # 系统模块
+        - id: cloud-system
+          uri: lb://cloud-system
+          predicates:
+            - Path=/api/system/**
+          filters:
+            - StripPrefix=2
+        # 文件服务
+        - id: cloud-file
+          uri: lb://cloud-file
+          predicates:
+            - Path=/api/file/**
+          filters:
+            - StripPrefix=1

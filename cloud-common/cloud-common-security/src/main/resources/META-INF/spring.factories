@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.fank243.cloud.common.security.service.TokenService,\
+  com.fank243.cloud.common.security.aspect.PreAuthorizeAspect,\
+  com.fank243.cloud.common.security.handler.GlobalExceptionHandler
