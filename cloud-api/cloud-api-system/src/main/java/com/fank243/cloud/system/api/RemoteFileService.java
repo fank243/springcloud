@@ -13,11 +13,12 @@ import com.fank243.cloud.system.api.factory.RemoteFileFallbackFactory;
 /**
  * 文件服务
  * 
- * @author FanWeiJie \n @date 2021-04-05 23:41:10
+ * @author FanWeiJie
+ * @date 2021-04-05 23:41:10
  */
-@FeignClient(contextId = "remoteFileService", value = ServiceNameConstants.FILE_SERVICE, fallbackFactory = RemoteFileFallbackFactory.class)
-public interface RemoteFileService
-{
+@FeignClient(contextId = "remoteFileService", value = ServiceNameConstants.FILE_SERVICE,
+    fallbackFactory = RemoteFileFallbackFactory.class)
+public interface RemoteFileService {
     /**
      * 上传文件
      *
@@ -25,5 +26,5 @@ public interface RemoteFileService
      * @return 结果
      */
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public R<SysFile> upload(@RequestPart(value = "file") MultipartFile file);
+    R<SysFile> upload(@RequestPart(value = "file") MultipartFile file);
 }

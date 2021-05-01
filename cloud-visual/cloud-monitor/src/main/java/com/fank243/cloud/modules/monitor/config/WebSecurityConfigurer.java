@@ -9,41 +9,29 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 /**
  * 监控权限配置
  * 
- * @author FanWeiJie \n @date 2021-04-05 23:41:10
+ * @author FanWeiJie
+ * @date 2021-04-05 23:41:10
  */
 @Configuration
-public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter
-{
+public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private final String adminContextPath;
 
-    public WebSecurityConfigurer(AdminServerProperties adminServerProperties)
-    {
+    public WebSecurityConfigurer(AdminServerProperties adminServerProperties) {
         this.adminContextPath = adminServerProperties.getContextPath();
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+    protected void configure(HttpSecurity http) throws Exception {
+        SavedRequestAwareAuthenticationSuccessHandler successHandler =
+            new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         successHandler.setDefaultTargetUrl(adminContextPath + "/");
 
-        http
-            .headers().frameOptions().disable()
-            .and().authorizeRequests()
-            .antMatchers(adminContextPath + "/assets/**"
-                , adminContextPath + "/login"
-                , adminContextPath + "/actuator/**"
-                , adminContextPath + "/instances/**"
-            ).permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin().loginPage(adminContextPath + "/login")
-            .successHandler(successHandler).and()
-            .logout().logoutUrl(adminContextPath + "/logout")
-            .and()
-            .httpBasic().and()
-            .csrf()
-            .disable();
+        http.headers().frameOptions().disable().and().authorizeRequests()
+            .antMatchers(adminContextPath + "/assets/**", adminContextPath + "/login",
+                adminContextPath + "/actuator/**", adminContextPath + "/instances/**")
+            .permitAll().anyRequest().authenticated().and().formLogin().loginPage(adminContextPath + "/login")
+            .successHandler(successHandler).and().logout().logoutUrl(adminContextPath + "/logout").and().httpBasic()
+            .and().csrf().disable();
     }
 }
