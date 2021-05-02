@@ -260,7 +260,7 @@ export default {
     /** 生成代码操作 */
     handleGenTable(row) {
       const tableNames = row.tableName || this.tableNames;
-      if (tableNames == "") {
+      if (tableNames === "") {
         this.msgError("请选择要生成的数据");
         return;
       }

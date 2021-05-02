@@ -1,8 +1,8 @@
 package com.fank243.cloud.gen.controller;
 
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.text.Convert;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
@@ -53,15 +53,15 @@ public class GenController extends BaseController {
      */
     @PreAuthorize(hasPermi = "tool:gen:query")
     @GetMapping(value = "/{talbleId}")
-    public AjaxResult getInfo(@PathVariable Long talbleId) {
+    public ResultInfo<?> getInfo(@PathVariable Long talbleId) {
         GenTable table = genTableService.selectGenTableById(talbleId);
         List<GenTable> tables = genTableService.selectGenTableAll();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(talbleId);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("info", table);
         map.put("rows", list);
         map.put("tables", tables);
-        return AjaxResult.success(map);
+        return ResultInfo.ok(map);
     }
 
     /**
@@ -93,12 +93,12 @@ public class GenController extends BaseController {
     @PreAuthorize(hasPermi = "tool:gen:list")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
-    public AjaxResult importTableSave(String tables) {
+    public ResultInfo<?> importTableSave(String tables) {
         String[] tableNames = Convert.toStrArray(tables);
         // 查询表信息
         List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
         genTableService.importGenTable(tableList);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**
@@ -107,10 +107,10 @@ public class GenController extends BaseController {
     @PreAuthorize(hasPermi = "tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult editSave(@Validated @RequestBody GenTable genTable) {
+    public ResultInfo<?> editSave(@Validated @RequestBody GenTable genTable) {
         genTableService.validateEdit(genTable);
         genTableService.updateGenTable(genTable);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**
@@ -119,9 +119,9 @@ public class GenController extends BaseController {
     @PreAuthorize(hasPermi = "tool:gen:remove")
     @Log(title = "代码生成", businessType = BusinessType.DELETE)
     @DeleteMapping("/{tableIds}")
-    public AjaxResult remove(@PathVariable Long[] tableIds) {
+    public ResultInfo<?> remove(@PathVariable Long[] tableIds) {
         genTableService.deleteGenTableByIds(tableIds);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**
@@ -129,9 +129,9 @@ public class GenController extends BaseController {
      */
     @PreAuthorize(hasPermi = "tool:gen:preview")
     @GetMapping("/preview/{tableId}")
-    public AjaxResult preview(@PathVariable("tableId") Long tableId) throws IOException {
+    public ResultInfo<?> preview(@PathVariable("tableId") Long tableId) throws IOException {
         Map<String, String> dataMap = genTableService.previewCode(tableId);
-        return AjaxResult.success(dataMap);
+        return ResultInfo.ok(dataMap);
     }
 
     /**
@@ -151,9 +151,9 @@ public class GenController extends BaseController {
     @PreAuthorize(hasPermi = "tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/genCode/{tableName}")
-    public AjaxResult genCode(@PathVariable("tableName") String tableName) {
+    public ResultInfo<?> genCode(@PathVariable("tableName") String tableName) {
         genTableService.generatorCode(tableName);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**
@@ -162,9 +162,9 @@ public class GenController extends BaseController {
     @PreAuthorize(hasPermi = "tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
     @GetMapping("/synchDb/{tableName}")
-    public AjaxResult synchDb(@PathVariable("tableName") String tableName) {
+    public ResultInfo<?> synchDb(@PathVariable("tableName") String tableName) {
         genTableService.synchDb(tableName);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**

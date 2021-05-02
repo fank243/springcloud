@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +20,6 @@ import com.fank243.cloud.common.core.utils.SecurityUtils;
 import com.fank243.cloud.common.core.utils.StringUtils;
 import com.fank243.cloud.common.core.utils.poi.ExcelUtil;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
@@ -64,20 +65,20 @@ public class SysDictDataController extends BaseController {
      */
     @PreAuthorize(hasPermi = "system:dict:query")
     @GetMapping(value = "/{dictCode}")
-    public AjaxResult getInfo(@PathVariable Long dictCode) {
-        return AjaxResult.success(dictDataService.selectDictDataById(dictCode));
+    public ResultInfo<?> getInfo(@PathVariable Long dictCode) {
+        return ResultInfo.ok(dictDataService.selectDictDataById(dictCode));
     }
 
     /**
      * 根据字典类型查询字典数据信息
      */
     @GetMapping(value = "/type/{dictType}")
-    public AjaxResult dictType(@PathVariable String dictType) {
+    public ResultInfo<?> dictType(@PathVariable String dictType) {
         List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
         if (StringUtils.isNull(data)) {
-            data = new ArrayList<SysDictData>();
+            data = new ArrayList<>();
         }
-        return AjaxResult.success(data);
+        return ResultInfo.ok(data);
     }
 
     /**
@@ -86,9 +87,9 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:add")
     @Log(title = "字典数据", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDictData dict) {
+    public ResultInfo<?> add(@Validated @RequestBody SysDictData dict) {
         dict.setCreateBy(SecurityUtils.getUsername());
-        return toAjax(dictDataService.insertDictData(dict));
+        return ResultInfo.ok(dictDataService.insertDictData(dict));
     }
 
     /**
@@ -97,7 +98,7 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:edit")
     @Log(title = "字典数据", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysDictData dict) {
+    public ResultInfo<?> edit(@Validated @RequestBody SysDictData dict) {
         dict.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(dictDataService.updateDictData(dict));
     }
@@ -108,7 +109,7 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictCodes}")
-    public AjaxResult remove(@PathVariable Long[] dictCodes) {
+    public ResultInfo<?> remove(@PathVariable Long[] dictCodes) {
         return toAjax(dictDataService.deleteDictDataByIds(dictCodes));
     }
 }

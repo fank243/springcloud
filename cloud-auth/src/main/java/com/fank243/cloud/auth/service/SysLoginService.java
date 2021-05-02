@@ -2,14 +2,13 @@ package com.fank243.cloud.auth.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import org.springframework.stereotype.Component;
 import com.fank243.cloud.common.core.constant.Constants;
 import com.fank243.cloud.common.core.constant.UserConstants;
-import com.fank243.cloud.common.core.domain.R;
 import com.fank243.cloud.common.core.enums.UserStatus;
 import com.fank243.cloud.common.core.exception.BaseException;
 import com.fank243.cloud.common.core.utils.SecurityUtils;
-import com.fank243.cloud.common.core.utils.StringUtils;
 import com.fank243.cloud.system.api.RemoteLogService;
 import com.fank243.cloud.system.api.RemoteUserService;
 import com.fank243.cloud.system.api.domain.SysUser;
@@ -53,21 +52,20 @@ public class SysLoginService {
             throw new BaseException("用户名不在指定范围");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username);
+        ResultInfo<LoginUser> resultInfo = remoteUserService.getUserInfo(username);
 
-        if (R.FAIL == userResult.getCode()) {
-            throw new BaseException(userResult.getMsg());
+        if (!resultInfo.isSuccess()) {
+            throw new BaseException(resultInfo.getMessage());
         }
 
-        if (ObjectUtil.isNull(userResult.getData())) {
+        if (ObjectUtil.isNull(resultInfo.getPayload())) {
             remoteLogService.saveLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
             throw new BaseException("登录用户：" + username + " 不存在");
         }
-        LoginUser userInfo = userResult.getData();
-        SysUser user = userResult.getData().getSysUser();
+        LoginUser userInfo = resultInfo.getPayload();
+        SysUser user = resultInfo.getPayload().getSysUser();
         if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
             remoteLogService.saveLogininfor(username, Constants.LOGIN_FAIL, "对不起，您的账号已被删除");
-
             throw new BaseException("对不起，您的账号：" + username + " 已被删除");
         }
         if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {

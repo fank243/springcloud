@@ -1,9 +1,10 @@
 package com.fank243.cloud.gateway.service;
 
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.exception.CaptchaException;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 验证码处理
@@ -19,7 +20,7 @@ public interface ValidateCodeService {
      * @throws IOException IOException
      * @throws CaptchaException CaptchaException
      */
-    AjaxResult createCapcha() throws IOException, CaptchaException;
+    ResultInfo<Map<String, Object>> createCapcha() throws IOException, CaptchaException;
 
     /**
      * 校验验证码

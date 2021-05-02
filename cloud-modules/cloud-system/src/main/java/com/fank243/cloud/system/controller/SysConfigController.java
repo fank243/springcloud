@@ -1,10 +1,10 @@
 package com.fank243.cloud.system.controller;
 
 import com.fank243.cloud.common.core.constant.UserConstants;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.utils.SecurityUtils;
 import com.fank243.cloud.common.core.utils.poi.ExcelUtil;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
@@ -55,16 +55,16 @@ public class SysConfigController extends BaseController {
      * 根据参数编号获取详细信息
      */
     @GetMapping(value = "/{configId}")
-    public AjaxResult getInfo(@PathVariable Long configId) {
-        return AjaxResult.success(configService.selectConfigById(configId));
+    public ResultInfo<?> getInfo(@PathVariable Long configId) {
+        return ResultInfo.ok(configService.selectConfigById(configId));
     }
 
     /**
      * 根据参数键名查询参数值
      */
     @GetMapping(value = "/configKey/{configKey}")
-    public AjaxResult getConfigKey(@PathVariable String configKey) {
-        return AjaxResult.success(configService.selectConfigByKey(configKey));
+    public ResultInfo<?> getConfigKey(@PathVariable String configKey) {
+        return ResultInfo.ok(configService.selectConfigByKey(configKey));
     }
 
     /**
@@ -73,9 +73,9 @@ public class SysConfigController extends BaseController {
     @PreAuthorize(hasPermi = "system:config:add")
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysConfig config) {
+    public ResultInfo<?> add(@Validated @RequestBody SysConfig config) {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
-            return AjaxResult.error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return ResultInfo.fail("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setCreateBy(SecurityUtils.getUsername());
         return toAjax(configService.insertConfig(config));
@@ -87,9 +87,9 @@ public class SysConfigController extends BaseController {
     @PreAuthorize(hasPermi = "system:config:edit")
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysConfig config) {
+    public ResultInfo<?> edit(@Validated @RequestBody SysConfig config) {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
-            return AjaxResult.error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return ResultInfo.fail("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(configService.updateConfig(config));
@@ -101,7 +101,7 @@ public class SysConfigController extends BaseController {
     @PreAuthorize(hasPermi = "system:config:remove")
     @Log(title = "参数管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{configIds}")
-    public AjaxResult remove(@PathVariable Long[] configIds) {
+    public ResultInfo<?> remove(@PathVariable Long[] configIds) {
         return toAjax(configService.deleteConfigByIds(configIds));
     }
 
@@ -111,8 +111,8 @@ public class SysConfigController extends BaseController {
     @PreAuthorize(hasPermi = "system:config:remove")
     @Log(title = "参数管理", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clearCache")
-    public AjaxResult clearCache() {
+    public ResultInfo<?> clearCache() {
         configService.clearCache();
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 }

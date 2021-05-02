@@ -3,8 +3,8 @@ package com.fank243.cloud.gateway.filter;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.utils.StringUtils;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.gateway.service.ValidateCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -56,7 +56,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
                 ServerHttpResponse response = exchange.getResponse();
                 response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
                 return exchange.getResponse().writeWith(
-                    Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
+                    Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(ResultInfo.fail(e.getMessage())))));
             }
             return chain.filter(exchange);
         };

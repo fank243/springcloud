@@ -1,7 +1,7 @@
 package com.fank243.cloud.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -29,7 +29,7 @@ public class BlackListUrlFilter extends AbstractGatewayFilterFactory<BlackListUr
                 ServerHttpResponse response = exchange.getResponse();
                 response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
                 return exchange.getResponse().writeWith(
-                    Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error("请求地址不允许访问")))));
+                    Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(ResultInfo.fail("请求地址不允许访问")))));
             }
 
             return chain.filter(exchange);

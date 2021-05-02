@@ -6,12 +6,12 @@ spring:
         - id: cloud-auth
           uri: lb://cloud-auth
           predicates:
-            - Path=/api/auth/**
+            - Path=/auth/**
           filters:
             # 验证码处理
             - CacheRequestFilter
             - ValidateCodeFilter
-            - StripPrefix=1
+           # - StripPrefix=1
         # 代码生成
         - id: cloud-gen
           uri: lb://cloud-gen
@@ -30,9 +30,9 @@ spring:
         - id: cloud-system
           uri: lb://cloud-system
           predicates:
-            - Path=/api/system/**
+            - Path=/system/**
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
         # 文件服务
         - id: cloud-file
           uri: lb://cloud-file

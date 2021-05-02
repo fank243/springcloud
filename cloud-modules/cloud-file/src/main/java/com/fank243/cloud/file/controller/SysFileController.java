@@ -1,6 +1,6 @@
 package com.fank243.cloud.file.controller;
 
-import com.fank243.cloud.common.core.domain.R;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.utils.file.FileUtils;
 import com.fank243.cloud.file.service.ISysFileService;
 import com.fank243.cloud.system.api.domain.SysFile;
@@ -28,17 +28,17 @@ public class SysFileController {
      * 文件上传请求
      */
     @PostMapping("upload")
-    public R<SysFile> upload(MultipartFile file) {
+    public ResultInfo<SysFile> upload(MultipartFile file) {
         try {
             // 上传并返回访问地址
             String url = sysFileService.uploadFile(file);
             SysFile sysFile = new SysFile();
             sysFile.setName(FileUtils.getName(url));
             sysFile.setUrl(url);
-            return R.ok(sysFile);
+            return ResultInfo.ok(sysFile);
         } catch (Exception e) {
             log.error("上传文件失败", e);
-            return R.fail(e.getMessage());
+            return ResultInfo.fail(e.getMessage());
         }
     }
 }

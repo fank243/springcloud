@@ -1,6 +1,10 @@
 package com.fank243.cloud.system.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +20,6 @@ import com.fank243.cloud.common.core.constant.UserConstants;
 import com.fank243.cloud.common.core.utils.SecurityUtils;
 import com.fank243.cloud.common.core.utils.StringUtils;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
 import com.fank243.cloud.common.security.annotation.PreAuthorize;
@@ -40,10 +43,10 @@ public class SysMenuController extends BaseController {
      */
     @PreAuthorize(hasPermi = "system:menu:list")
     @GetMapping("/list")
-    public AjaxResult list(SysMenu menu) {
+    public ResultInfo<?> list(SysMenu menu) {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
-        return AjaxResult.success(menus);
+        return ResultInfo.ok(menus);
     }
 
     /**
@@ -51,31 +54,31 @@ public class SysMenuController extends BaseController {
      */
     @PreAuthorize(hasPermi = "system:menu:query")
     @GetMapping(value = "/{menuId}")
-    public AjaxResult getInfo(@PathVariable Long menuId) {
-        return AjaxResult.success(menuService.selectMenuById(menuId));
+    public ResultInfo<?> getInfo(@PathVariable Long menuId) {
+        return ResultInfo.ok(menuService.selectMenuById(menuId));
     }
 
     /**
      * 获取菜单下拉树列表
      */
     @GetMapping("/treeselect")
-    public AjaxResult treeselect(SysMenu menu) {
+    public ResultInfo<?> treeselect(SysMenu menu) {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
-        return AjaxResult.success(menuService.buildMenuTreeSelect(menus));
+        return ResultInfo.ok(menuService.buildMenuTreeSelect(menus));
     }
 
     /**
      * 加载对应角色菜单列表树
      */
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
-    public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
+    public ResultInfo<?> roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(userId);
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
-        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
-        return ajax;
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
+        map.put("menus", menuService.buildMenuTreeSelect(menus));
+        return ResultInfo.ok(map);
     }
 
     /**
@@ -84,15 +87,15 @@ public class SysMenuController extends BaseController {
     @PreAuthorize(hasPermi = "system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysMenu menu) {
+    public ResultInfo<?> add(@Validated @RequestBody SysMenu menu) {
         if (UserConstants.NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
-            return AjaxResult.error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+            return ResultInfo.fail("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         } else if (UserConstants.YES_FRAME.equals(menu.getIsFrame())
             && !StringUtils.startsWithAny(menu.getPath(), Constants.HTTP, Constants.HTTPS)) {
-            return AjaxResult.error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
+            return ResultInfo.fail("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }
         menu.setCreateBy(SecurityUtils.getUsername());
-        return toAjax(menuService.insertMenu(menu));
+        return ResultInfo.ok(menuService.insertMenu(menu));
     }
 
     /**
@@ -101,17 +104,17 @@ public class SysMenuController extends BaseController {
     @PreAuthorize(hasPermi = "system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysMenu menu) {
+    public ResultInfo<?> edit(@Validated @RequestBody SysMenu menu) {
         if (UserConstants.NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
-            return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+            return ResultInfo.fail("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         } else if (UserConstants.YES_FRAME.equals(menu.getIsFrame())
             && !StringUtils.startsWithAny(menu.getPath(), Constants.HTTP, Constants.HTTPS)) {
-            return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
+            return ResultInfo.fail("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         } else if (menu.getMenuId().equals(menu.getParentId())) {
-            return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
+            return ResultInfo.fail("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
         }
         menu.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(menuService.updateMenu(menu));
+        return ResultInfo.ok(menuService.updateMenu(menu));
     }
 
     /**
@@ -120,14 +123,14 @@ public class SysMenuController extends BaseController {
     @PreAuthorize(hasPermi = "system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
-    public AjaxResult remove(@PathVariable("menuId") Long menuId) {
+    public ResultInfo<?> remove(@PathVariable("menuId") Long menuId) {
         if (menuService.hasChildByMenuId(menuId)) {
-            return AjaxResult.error("存在子菜单,不允许删除");
+            return ResultInfo.fail("存在子菜单,不允许删除");
         }
         if (menuService.checkMenuExistRole(menuId)) {
-            return AjaxResult.error("菜单已分配,不允许删除");
+            return ResultInfo.fail("菜单已分配,不允许删除");
         }
-        return toAjax(menuService.deleteMenuById(menuId));
+        return ResultInfo.ok(menuService.deleteMenuById(menuId));
     }
 
     /**
@@ -136,9 +139,9 @@ public class SysMenuController extends BaseController {
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public AjaxResult getRouters() {
+    public ResultInfo<?> getRouters() {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
-        return AjaxResult.success(menuService.buildMenus(menus));
+        return ResultInfo.ok(menuService.buildMenus(menus));
     }
 }

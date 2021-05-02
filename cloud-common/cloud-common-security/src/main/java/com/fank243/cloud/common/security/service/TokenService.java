@@ -47,7 +47,7 @@ public class TokenService {
         refreshToken(loginUser);
 
         // 保存或更新用户token
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("access_token", token);
         map.put("expires_in", EXPIRE_TIME);
         redisService.setCacheObject(ACCESS_TOKEN + token, loginUser, EXPIRE_TIME, TimeUnit.SECONDS);
@@ -73,8 +73,7 @@ public class TokenService {
         String token = SecurityUtils.getToken(request);
         if (StringUtils.isNotEmpty(token)) {
             String userKey = getTokenKey(token);
-            LoginUser user = redisService.getCacheObject(userKey);
-            return user;
+            return redisService.getCacheObject(userKey);
         }
         return null;
     }

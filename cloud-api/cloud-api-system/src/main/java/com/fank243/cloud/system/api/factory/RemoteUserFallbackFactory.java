@@ -1,6 +1,6 @@
 package com.fank243.cloud.system.api.factory;
 
-import com.fank243.cloud.common.core.domain.R;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.system.api.RemoteUserService;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,6 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
     @Override
     public RemoteUserService create(Throwable throwable) {
         log.error("用户服务调用失败:{}", throwable.getMessage());
-        return username -> R.fail("获取用户失败:" + throwable.getMessage());
+        return username -> ResultInfo.fail("获取用户失败:" + throwable.getMessage());
     }
 }

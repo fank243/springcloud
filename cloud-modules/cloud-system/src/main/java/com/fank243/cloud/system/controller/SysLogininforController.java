@@ -1,11 +1,11 @@
 package com.fank243.cloud.system.controller;
 
 import com.fank243.cloud.common.core.constant.Constants;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.utils.ServletUtils;
 import com.fank243.cloud.common.core.utils.ip.IpUtils;
 import com.fank243.cloud.common.core.utils.poi.ExcelUtil;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
@@ -51,20 +51,20 @@ public class SysLogininforController extends BaseController {
     @PreAuthorize(hasPermi = "system:logininfor:remove")
     @Log(title = "登录日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{infoIds}")
-    public AjaxResult remove(@PathVariable Long[] infoIds) {
-        return toAjax(logininforService.deleteLogininforByIds(infoIds));
+    public ResultInfo<?> remove(@PathVariable Long[] infoIds) {
+        return ResultInfo.ok(logininforService.deleteLogininforByIds(infoIds));
     }
 
     @PreAuthorize(hasPermi = "system:logininfor:remove")
     @Log(title = "登录日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/clean")
-    public AjaxResult clean() {
+    public ResultInfo<?> clean() {
         logininforService.cleanLogininfor();
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     @PostMapping
-    public AjaxResult add(@RequestParam("username") String username, @RequestParam("status") String status,
+    public ResultInfo<?> add(@RequestParam("username") String username, @RequestParam("status") String status,
         @RequestParam("message") String message) {
         String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
 
@@ -79,6 +79,6 @@ public class SysLogininforController extends BaseController {
         } else if (Constants.LOGIN_FAIL.equals(status)) {
             logininfor.setStatus("1");
         }
-        return toAjax(logininforService.insertLogininfor(logininfor));
+        return ResultInfo.ok(logininforService.insertLogininfor(logininfor));
     }
 }

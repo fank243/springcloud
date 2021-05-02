@@ -1,7 +1,8 @@
 package com.fank243.cloud.gateway.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.fank243.cloud.common.core.domain.R;
+import com.fank243.cloud.common.core.domain.ResultInfo;
+import com.fank243.cloud.gateway.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +32,11 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
-
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }
 
         String msg;
-
         if (ex instanceof NotFoundException) {
             msg = "服务未找到";
         } else if (ex instanceof ResponseStatusException) {
@@ -49,12 +48,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
         log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
 
-        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-        response.setStatusCode(HttpStatus.OK);
-
-        return response.writeWith(Mono.fromSupplier(() -> {
-            DataBufferFactory bufferFactory = response.bufferFactory();
-            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(msg)));
-        }));
+        return ResponseUtils.printJson(response, HttpStatus.OK, ResultInfo.fail(msg));
     }
 }

@@ -1,12 +1,12 @@
 package com.fank243.cloud.system.api.factory;
 
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.system.api.RemoteLogService;
 import com.fank243.cloud.system.api.domain.SysOperLog;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import com.fank243.cloud.common.core.domain.R;
 import feign.hystrix.FallbackFactory;
 
 /**
@@ -24,12 +24,12 @@ public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogServic
         log.error("日志服务调用失败:{}", throwable.getMessage());
         return new RemoteLogService() {
             @Override
-            public R<Boolean> saveLog(SysOperLog sysOperLog) {
+            public ResultInfo<Boolean> saveLog(SysOperLog sysOperLog) {
                 return null;
             }
 
             @Override
-            public R<Boolean> saveLogininfor(String username, String status, String message) {
+            public ResultInfo<Boolean> saveLogininfor(String username, String status, String message) {
                 return null;
             }
         };

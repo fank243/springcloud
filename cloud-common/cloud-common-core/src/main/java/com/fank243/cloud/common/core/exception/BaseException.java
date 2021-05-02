@@ -1,6 +1,7 @@
 package com.fank243.cloud.common.core.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 基础异常
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author FanWeiJie
  * @date 2021-04-05 23:41:10
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1L;

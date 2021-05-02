@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fank243.cloud.common.core.constant.HttpStatus;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.web.page.PageDomain;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.core.web.page.TableSupport;
@@ -74,8 +74,8 @@ public class BaseController {
      * @param rows 影响行数
      * @return 操作结果
      */
-    protected AjaxResult toAjax(int rows) {
-        return rows > 0 ? AjaxResult.success() : AjaxResult.error();
+    protected ResultInfo<?> toAjax(int rows) {
+        return rows > 0 ? ResultInfo.ok() : ResultInfo.fail();
     }
 
     /**
@@ -84,35 +84,35 @@ public class BaseController {
      * @param result 结果
      * @return 操作结果
      */
-    protected AjaxResult toAjax(boolean result) {
+    protected ResultInfo<?> toAjax(boolean result) {
         return result ? success() : error();
     }
 
     /**
      * 返回成功
      */
-    public AjaxResult success() {
-        return AjaxResult.success();
+    public ResultInfo<?> success() {
+        return ResultInfo.ok();
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error() {
-        return AjaxResult.error();
+    public ResultInfo<?> error() {
+        return ResultInfo.fail();
     }
 
     /**
      * 返回成功消息
      */
-    public AjaxResult success(String message) {
-        return AjaxResult.success(message);
+    public ResultInfo<?> success(String message) {
+        return ResultInfo.ok(message);
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error(String message) {
-        return AjaxResult.error(message);
+    public ResultInfo<?> error(String message) {
+        return ResultInfo.fail(message);
     }
 }

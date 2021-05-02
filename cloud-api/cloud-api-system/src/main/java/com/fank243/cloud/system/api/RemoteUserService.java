@@ -1,7 +1,7 @@
 package com.fank243.cloud.system.api;
 
 import com.fank243.cloud.common.core.constant.ServiceNameConstants;
-import com.fank243.cloud.common.core.domain.R;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.system.api.factory.RemoteUserFallbackFactory;
 import com.fank243.cloud.system.api.model.LoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,5 +24,5 @@ public interface RemoteUserService {
      * @return 结果
      */
     @GetMapping(value = "/user/info/{username}")
-    R<LoginUser> getUserInfo(@PathVariable("username") String username);
+    ResultInfo<LoginUser> getUserInfo(@PathVariable("username") String username);
 }

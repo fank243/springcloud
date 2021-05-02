@@ -79,4 +79,8 @@ public class SecurityUtils {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+
+    public static void main(String[] args) {
+        System.out.println(encryptPassword("123456"));
+    }
 }

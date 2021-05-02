@@ -52,11 +52,11 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(res => {
     // 未设置状态码则默认成功状态
-    const code = res.data.code || 200;
+    const status = res.data.status || 200;
     // 获取错误信息
-    const msg = errorCode[code] || res.data.msg || errorCode['default']
-    if (code === 401) {
-      MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
+    const msg = errorCode[status] || res.data.message || errorCode['default']
+    if (status === 401) {
+      MessageBox.confirm(msg, '系统提示', {
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',
           type: 'warning'
@@ -66,13 +66,13 @@ service.interceptors.response.use(res => {
           location.href = '/index';
         })
       })
-    } else if (code === 500) {
+    } else if (status === 500) {
       Message({
         message: msg,
         type: 'error'
       })
       return Promise.reject(new Error(msg))
-    } else if (code !== 200) {
+    } else if (status !== 200) {
       Notification.error({
         title: msg
       })
@@ -84,7 +84,7 @@ service.interceptors.response.use(res => {
   error => {
     console.log('err' + error)
     let { message } = error;
-    if (message == "Network Error") {
+    if (message === "Network Error") {
       message = "后端接口连接异常";
     }
     else if (message.includes("timeout")) {

@@ -3,9 +3,9 @@ package com.fank243.cloud.gateway.service.impl;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.fank243.cloud.common.core.constant.Constants;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.exception.CaptchaException;
 import com.fank243.cloud.common.core.utils.sign.Base64;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.redis.service.RedisService;
 import com.fank243.cloud.gateway.service.ValidateCodeService;
 import com.google.code.kaptcha.Producer;
@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,12 +45,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      * 生成验证码
      */
     @Override
-    public AjaxResult createCapcha() throws CaptchaException {
+    public ResultInfo<Map<String, Object>> createCapcha() throws CaptchaException {
         // 保存验证码信息
         String uuid = UUID.fastUUID().toString(true);
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
 
-        String capStr = null, code = null;
+        String capStr, code = null;
         BufferedImage image = null;
 
         // 生成验证码
@@ -69,13 +71,13 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
             assert image != null;
             ImageIO.write(image, "jpg", os);
         } catch (IOException e) {
-            return AjaxResult.error(e.getMessage());
+            return ResultInfo.fail(e.getMessage());
         }
 
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("uuid", uuid);
-        ajax.put("img", Base64.encode(os.toByteArray()));
-        return ajax;
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("uuid", uuid);
+        map.put("img", Base64.encode(os.toByteArray()));
+        return ResultInfo.ok(map);
     }
 
     /**

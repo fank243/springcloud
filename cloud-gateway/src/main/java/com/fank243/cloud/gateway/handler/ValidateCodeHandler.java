@@ -1,7 +1,7 @@
 package com.fank243.cloud.gateway.handler;
 
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.exception.CaptchaException;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.gateway.service.ValidateCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 验证码获取
@@ -27,7 +28,7 @@ public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
 
     @Override
     public Mono<ServerResponse> handle(ServerRequest serverRequest) {
-        AjaxResult ajax;
+        ResultInfo<Map<String, Object>> ajax;
         try {
             ajax = validateCodeService.createCapcha();
         } catch (CaptchaException | IOException e) {

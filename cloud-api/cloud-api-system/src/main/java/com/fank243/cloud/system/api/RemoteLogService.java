@@ -1,7 +1,7 @@
 package com.fank243.cloud.system.api;
 
 import com.fank243.cloud.common.core.constant.ServiceNameConstants;
-import com.fank243.cloud.common.core.domain.R;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.system.api.domain.SysOperLog;
 import com.fank243.cloud.system.api.factory.RemoteLogFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -25,7 +25,7 @@ public interface RemoteLogService {
      * @return 结果
      */
     @PostMapping("/operlog")
-    R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog);
+    ResultInfo<Boolean> saveLog(@RequestBody SysOperLog sysOperLog);
 
     /**
      * 保存访问记录
@@ -36,6 +36,6 @@ public interface RemoteLogService {
      * @return 结果
      */
     @PostMapping("/logininfor")
-    R<Boolean> saveLogininfor(@RequestParam("username") String username, @RequestParam("status") String status,
-        @RequestParam("message") String message);
+    ResultInfo<Boolean> saveLogininfor(@RequestParam("username") String username, @RequestParam("status") String status,
+                                       @RequestParam("message") String message);
 }

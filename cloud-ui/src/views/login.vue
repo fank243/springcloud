@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">微服务后台管理系统</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -99,8 +99,8 @@ export default {
   methods: {
     getCode() {
       getCodeImg().then(res => {
-        this.codeUrl = "data:image/gif;base64," + res.img;
-        this.loginForm.uuid = res.uuid;
+        this.codeUrl = "data:image/gif;base64," + res.payload.img;
+        this.loginForm.uuid = res.payload.uuid;
       });
     },
     getCookie() {
@@ -127,6 +127,7 @@ export default {
             Cookies.remove('rememberMe');
           }
           this.$store.dispatch("Login", this.loginForm).then(() => {
+            console.log(this.redirect);
             this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
           }).catch(() => {
             this.loading = false;

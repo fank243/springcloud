@@ -1,10 +1,10 @@
 package com.fank243.cloud.system.controller;
 
 import com.fank243.cloud.common.core.constant.UserConstants;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.utils.SecurityUtils;
 import com.fank243.cloud.common.core.utils.poi.ExcelUtil;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
@@ -44,7 +44,7 @@ public class SysDictTypeController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictType dictType) throws IOException {
         List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
-        ExcelUtil<SysDictType> util = new ExcelUtil<SysDictType>(SysDictType.class);
+        ExcelUtil<SysDictType> util = new ExcelUtil<>(SysDictType.class);
         util.exportExcel(response, list, "字典类型");
     }
 
@@ -53,8 +53,8 @@ public class SysDictTypeController extends BaseController {
      */
     @PreAuthorize(hasPermi = "system:dict:query")
     @GetMapping(value = "/{dictId}")
-    public AjaxResult getInfo(@PathVariable Long dictId) {
-        return AjaxResult.success(dictTypeService.selectDictTypeById(dictId));
+    public ResultInfo<?> getInfo(@PathVariable Long dictId) {
+        return ResultInfo.ok(dictTypeService.selectDictTypeById(dictId));
     }
 
     /**
@@ -63,12 +63,12 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:add")
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDictType dict) {
+    public ResultInfo<?> add(@Validated @RequestBody SysDictType dict) {
         if (UserConstants.NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
-            return AjaxResult.error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
+            return ResultInfo.fail("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setCreateBy(SecurityUtils.getUsername());
-        return toAjax(dictTypeService.insertDictType(dict));
+        return ResultInfo.ok(dictTypeService.insertDictType(dict));
     }
 
     /**
@@ -77,12 +77,12 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:edit")
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysDictType dict) {
+    public ResultInfo<?> edit(@Validated @RequestBody SysDictType dict) {
         if (UserConstants.NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
-            return AjaxResult.error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
+            return ResultInfo.fail("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(dictTypeService.updateDictType(dict));
+        return ResultInfo.ok(dictTypeService.updateDictType(dict));
     }
 
     /**
@@ -91,8 +91,8 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictIds}")
-    public AjaxResult remove(@PathVariable Long[] dictIds) {
-        return toAjax(dictTypeService.deleteDictTypeByIds(dictIds));
+    public ResultInfo<?> remove(@PathVariable Long[] dictIds) {
+        return ResultInfo.ok(dictTypeService.deleteDictTypeByIds(dictIds));
     }
 
     /**
@@ -101,17 +101,17 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clearCache")
-    public AjaxResult clearCache() {
+    public ResultInfo<?> clearCache() {
         dictTypeService.clearCache();
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**
      * 获取字典选择框列表
      */
     @GetMapping("/optionselect")
-    public AjaxResult optionselect() {
+    public ResultInfo<?> optionselect() {
         List<SysDictType> dictTypes = dictTypeService.selectDictTypeAll();
-        return AjaxResult.success(dictTypes);
+        return ResultInfo.ok(dictTypes);
     }
 }

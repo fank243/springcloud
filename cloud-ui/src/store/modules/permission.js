@@ -24,14 +24,14 @@ const permission = {
       return new Promise(resolve => {
         // 向后端请求路由数据
         getRouters().then(res => {
-          const sdata = JSON.parse(JSON.stringify(res.data))
-          const rdata = JSON.parse(JSON.stringify(res.data))
-          const sidebarRoutes = filterAsyncRouter(sdata)
-          const rewriteRoutes = filterAsyncRouter(rdata, false, true)
-          rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
-          commit('SET_ROUTES', rewriteRoutes)
-          commit('SET_SIDEBAR_ROUTERS', sidebarRoutes)
-          resolve(rewriteRoutes)
+          const sdata = JSON.parse(JSON.stringify(res.payload));
+          const rdata = JSON.parse(JSON.stringify(res.payload));
+          const sidebarRoutes = filterAsyncRouter(sdata);
+          const rewriteRoutes = filterAsyncRouter(rdata, false, true);
+          rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true });
+          commit('SET_ROUTES', rewriteRoutes);
+          commit('SET_SIDEBAR_ROUTERS', sidebarRoutes);
+          resolve(rewriteRoutes);
         })
       })
     }

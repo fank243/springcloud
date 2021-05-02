@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.cloud.common.core.constant.CacheConstants;
 import com.fank243.cloud.common.core.constant.Constants;
-import com.fank243.cloud.common.core.domain.R;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.core.utils.ServletUtils;
 import com.fank243.cloud.common.core.utils.StringUtils;
 import com.fank243.cloud.common.redis.service.RedisService;
@@ -91,7 +91,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
-            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(msg)));
+            return bufferFactory.wrap(JSON.toJSONBytes(ResultInfo.fail(msg)));
         }));
     }
 

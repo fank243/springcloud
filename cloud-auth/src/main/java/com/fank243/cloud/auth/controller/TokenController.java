@@ -1,8 +1,7 @@
 package com.fank243.cloud.auth.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.fank243.cloud.common.core.domain.R;
-import com.fank243.cloud.common.core.utils.StringUtils;
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.common.security.service.TokenService;
 import com.fank243.cloud.system.api.model.LoginUser;
 import com.fank243.cloud.auth.form.LoginBody;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * token 控制
@@ -23,20 +23,19 @@ import javax.servlet.http.HttpServletRequest;
 public class TokenController {
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private SysLoginService sysLoginService;
 
     @PostMapping("login")
-    public R<?> login(@RequestBody LoginBody form) {
+    public ResultInfo<Map<String, Object>> login(@RequestBody LoginBody form) {
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
         // 获取登录token
-        return R.ok(tokenService.createToken(userInfo));
+        return ResultInfo.ok(tokenService.createToken(userInfo));
     }
 
     @DeleteMapping("logout")
-    public R<?> logout(HttpServletRequest request) {
+    public ResultInfo<?> logout(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (ObjectUtil.isNotNull(loginUser)) {
             String username = loginUser.getUsername();
@@ -45,17 +44,17 @@ public class TokenController {
             // 记录用户退出日志
             sysLoginService.logout(username);
         }
-        return R.ok();
+        return ResultInfo.ok();
     }
 
     @PostMapping("refresh")
-    public R<?> refresh(HttpServletRequest request) {
+    public ResultInfo<?> refresh(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (ObjectUtil.isNotNull(loginUser)) {
             // 刷新令牌有效期
             tokenService.refreshToken(loginUser);
-            return R.ok();
+            return ResultInfo.ok().message("刷新令牌成功");
         }
-        return R.ok();
+        return ResultInfo.ok();
     }
 }

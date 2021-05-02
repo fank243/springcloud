@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fank243.cloud.common.core.domain.ResultInfo;
 import com.fank243.cloud.job.service.ISysJobService;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import com.fank243.cloud.common.core.exception.job.TaskException;
 import com.fank243.cloud.common.core.utils.SecurityUtils;
 import com.fank243.cloud.common.core.utils.poi.ExcelUtil;
 import com.fank243.cloud.common.core.web.controller.BaseController;
-import com.fank243.cloud.common.core.web.domain.AjaxResult;
 import com.fank243.cloud.common.core.web.page.TableDataInfo;
 import com.fank243.cloud.common.log.annotation.Log;
 import com.fank243.cloud.common.log.enums.BusinessType;
@@ -34,8 +34,7 @@ import com.fank243.cloud.job.util.CronUtils;
  */
 @RestController
 @RequestMapping("/job")
-public class SysJobController extends BaseController
-{
+public class SysJobController extends BaseController {
     @Autowired
     private ISysJobService jobService;
 
@@ -44,8 +43,7 @@ public class SysJobController extends BaseController
      */
     @PreAuthorize(hasPermi = "monitor:job:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysJob sysJob)
-    {
+    public TableDataInfo list(SysJob sysJob) {
         startPage();
         List<SysJob> list = jobService.selectJobList(sysJob);
         return getDataTable(list);
@@ -57,8 +55,7 @@ public class SysJobController extends BaseController
     @PreAuthorize(hasPermi = "monitor:job:export")
     @Log(title = "定时任务", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysJob sysJob) throws IOException
-    {
+    public void export(HttpServletResponse response, SysJob sysJob) throws IOException {
         List<SysJob> list = jobService.selectJobList(sysJob);
         ExcelUtil<SysJob> util = new ExcelUtil<SysJob>(SysJob.class);
         util.exportExcel(response, list, "定时任务");
@@ -69,9 +66,8 @@ public class SysJobController extends BaseController
      */
     @PreAuthorize(hasPermi = "monitor:job:query")
     @GetMapping(value = "/{jobId}")
-    public AjaxResult getInfo(@PathVariable("jobId") Long jobId)
-    {
-        return AjaxResult.success(jobService.selectJobById(jobId));
+    public ResultInfo<?> getInfo(@PathVariable("jobId") Long jobId) {
+        return ResultInfo.ok(jobService.selectJobById(jobId));
     }
 
     /**
@@ -80,14 +76,12 @@ public class SysJobController extends BaseController
     @PreAuthorize(hasPermi = "monitor:job:add")
     @Log(title = "定时任务", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
-    {
-        if (!CronUtils.isValid(sysJob.getCronExpression()))
-        {
-            return AjaxResult.error("cron表达式不正确");
+    public ResultInfo<?> add(@RequestBody SysJob sysJob) throws SchedulerException, TaskException {
+        if (!CronUtils.isValid(sysJob.getCronExpression())) {
+            return ResultInfo.fail("cron表达式不正确");
         }
         sysJob.setCreateBy(SecurityUtils.getUsername());
-        return toAjax(jobService.insertJob(sysJob));
+        return ResultInfo.ok(jobService.insertJob(sysJob));
     }
 
     /**
@@ -96,14 +90,12 @@ public class SysJobController extends BaseController
     @PreAuthorize(hasPermi = "monitor:job:edit")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
-    {
-        if (!CronUtils.isValid(sysJob.getCronExpression()))
-        {
-            return AjaxResult.error("cron表达式不正确");
+    public ResultInfo<?> edit(@RequestBody SysJob sysJob) throws SchedulerException, TaskException {
+        if (!CronUtils.isValid(sysJob.getCronExpression())) {
+            return ResultInfo.fail("cron表达式不正确");
         }
         sysJob.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(jobService.updateJob(sysJob));
+        return ResultInfo.ok(jobService.updateJob(sysJob));
     }
 
     /**
@@ -112,11 +104,10 @@ public class SysJobController extends BaseController
     @PreAuthorize(hasPermi = "monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
-    public AjaxResult changeStatus(@RequestBody SysJob job) throws SchedulerException
-    {
+    public ResultInfo<?> changeStatus(@RequestBody SysJob job) throws SchedulerException {
         SysJob newJob = jobService.selectJobById(job.getJobId());
         newJob.setStatus(job.getStatus());
-        return toAjax(jobService.changeStatus(newJob));
+        return ResultInfo.ok(jobService.changeStatus(newJob));
     }
 
     /**
@@ -125,10 +116,9 @@ public class SysJobController extends BaseController
     @PreAuthorize(hasPermi = "monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping("/run")
-    public AjaxResult run(@RequestBody SysJob job) throws SchedulerException
-    {
+    public ResultInfo<?> run(@RequestBody SysJob job) throws SchedulerException {
         jobService.run(job);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 
     /**
@@ -137,9 +127,8 @@ public class SysJobController extends BaseController
     @PreAuthorize(hasPermi = "monitor:job:remove")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)
     @DeleteMapping("/{jobIds}")
-    public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException, TaskException
-    {
+    public ResultInfo<?> remove(@PathVariable Long[] jobIds) throws SchedulerException {
         jobService.deleteJobByIds(jobIds);
-        return AjaxResult.success();
+        return ResultInfo.ok();
     }
 }
